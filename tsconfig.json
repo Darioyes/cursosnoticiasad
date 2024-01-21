@@ -2,12 +2,10 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
     "paths": {
-      "@assets":[
-        "src/assets"
-      ],
-      "@styles/*": [
-        "src/styles/*"
+      "@assets/*":[
+        "src/assets/*"
       ],
       "@controllers/*": [
         "src/app/controllers/*"
