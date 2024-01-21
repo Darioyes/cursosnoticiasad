@@ -1,0 +1,13 @@
+/*
+
+@use 'variables/typography' as font; //cuando pongo el as vsc me trae las variables de ese archivo
+
+@font-face {
+    font-family: 'font.$main-family-bold';
+    src: url('../fonts/Roboto-Regular.ttf') format('truetype');
+    font-style: normal; //opcional
+    font-weight: 400; //opcional
+}
+
+
+*/

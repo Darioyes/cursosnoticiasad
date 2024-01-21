@@ -1,0 +1,21 @@
+@use 'variables/typography' as font; //cuando pongo el as vsc me trae las variables de ese archivo
+
+/*
+    font-family: font.$main-family-bold;
+*/
+
+*{
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+body{
+    min-height: 100dvh;
+}
+
+h1,h2,h3,h4,h5,h6{
+    text-wrap: balance;
+}
+p{
+    text-wrap: pretty;
+}
