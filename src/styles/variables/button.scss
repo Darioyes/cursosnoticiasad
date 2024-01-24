@@ -1,0 +1,90 @@
+@use '../variables/colors.scss' as color;
+
+.btn{
+    background-color: color.$blue-institutional-dark;
+    color: #fff;
+    border: color.$blue-institutional-dark;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    &:hover{
+        background-color: color.$blue-institutional;
+        color: #fff;
+        font-weight: bold;
+        border: color.$blue-institutional-dark;
+    }
+    &:disabled{
+        background-color: #a4a3a3;
+        color: #4d4b4b;
+        border: #a4a3a3;
+    }
+    
+    // &.btn-primary{
+    //     background-color: $btn-primary-bg;
+    //     color: $btn-primary-color;
+    //     border: $btn-primary-border;
+    //     &:hover{
+    //         background-color: $btn-primary-bg-hover;
+    //         color: $btn-primary-color-hover;
+    //         border: $btn-primary-border-hover;
+    //     }
+    //     &:disabled{
+    //         background-color: $btn-primary-bg-disabled;
+    //         color: $btn-primary-color-disabled;
+    //         border: $btn-primary-border-disabled;
+    //     }
+    // }
+    // &.btn-secondary{
+    //     background-color: $btn-secondary-bg;
+    //     color: $btn-secondary-color;
+    //     border: $btn-secondary-border;
+    //     &:hover{
+    //         background-color: $btn-secondary-bg-hover;
+    //         color: $btn-secondary-color-hover;
+    //         border: $btn-secondary-border-hover;
+    //     }
+    //     &:disabled{
+    //         background-color: $btn-secondary-bg-disabled;
+    //         color: $btn-secondary-color-disabled;
+    //         border: $btn-secondary-border-disabled;
+    //     }
+    // }
+    &.btn-success{
+        background-color: color.$success;
+        color: #fff;
+        border: color.$success-dark;
+        &:hover{
+            background-color: color.$success-light;
+            color: #fff;
+            border: color.$success-dark;
+        }
+        &:disabled{
+            background-color: #a4a3a3;
+            color: #4d4b4b;
+            border: #a4a3a3;
+        }
+    }
+    &.btn-danger{
+        background-color: color.$danger;
+        color: #fff;
+        border: color.$danger-dark;
+        &:hover{
+            background-color: color.$danger-light;
+            color: #fff;
+            border: color.$danger-dark;
+        }
+    }
+    &.btn-warning{
+        background-color: color.$warning;
+        color: #fff;
+        border: color.$warning-dark;
+        &:hover{
+            background-color: color.$warning-light;
+            color: #fff;
+            border: color.$warning-dark;
+        }
+    }
+}

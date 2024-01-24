@@ -1,1 +1,41 @@
-<p>login-page works!</p>
+<main class="main-login">
+    <div [formGroup]="loginForm" class="main-login__conteiner-login">
+            <form class="form-login" (submit)="loginUser()">
+                @if (valid) {
+                    <p class="alert alert-error">Todos los campos son obligatorios</p>
+                }
+                <img class="form-login__logo" src="../../../../assets/images/logo.jpg" alt="LogoNotiWeb">
+                <div class="form-login__input">
+                    @if (loginErrors?.errorNews == true) {
+                        <p class="alert alert-error form-login__input--error" >{{loginErrors?.message}}</p>
+                    }
+                    <label class="form-login__input--label" for="email">Email: </label>
+                    <input formControlName="email" class="form-login__input--field" type="email" name="email" id="email" >
+                    @if (email?.errors?.['required'] && email?.touched) {
+                        <p class="alert alert-error " >El email es obligatorio</p>
+                    }
+                    @if (email?.errors?.['email']) {
+                        <p class="alert alert-error">Debe ser un email valido</p>
+                    }
+                    @if (loginErrors?.errors?.email) {
+                        <p class="alert alert-error" >{{loginErrors?.errors?.email}}</p>
+                    }
+                </div>
+                <div class="form-login__input">
+                    <label class="form-login__input--label" for="password">Password: </label>
+                    <input formControlName="password" class="form-login__input--field" type="password" name="password" id="password">
+                    @if (password?.errors?.['required'] && password?.touched) {
+                        <p class="alert alert-error">El password es obligatorio</p>
+                    }
+                    @if (loginErrors?.errors?.password) {
+                        <p class="alert alert-error" >{{loginErrors.errors.password}}</p>
+                    }
+                </div>
+                <div class="form-login__button">
+                    <button class=" btn form-login__input--button" type="submit" name="button"
+                    [disabled]="loginForm.invalid"
+                    >Ingresar</button>
+                </div>
+            </form>
+    </div>
+</main>

@@ -1,0 +1,15 @@
+@use '../variables/colors.scss' as color;
+@use '../variables/typography.scss' as font;
+
+.alert{
+    font-family: font.$main-family-extra-bold-italic;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    font-weight: 100;
+    &-success{
+        color:color.$success;
+    }
+    &-error{
+        color:color.$danger;
+    }
+}
