@@ -1,9 +1,10 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
-import { routes } from './app.routes';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideClientHydration } from '@angular/platform-browser';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { routes } from './app.routes';
+import { errorHandlerInterceptor } from './interceptor/error-handler.interceptor';
 
 
 export const appConfig: ApplicationConfig = {
@@ -14,6 +15,9 @@ export const appConfig: ApplicationConfig = {
     //     //aca se guardan todos los modulos que se van a usar en la aplicacion
     //     HttpClientModule,
     // ),
-    provideHttpClient(withFetch()),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([errorHandlerInterceptor]),
+      ),
   ]
 };

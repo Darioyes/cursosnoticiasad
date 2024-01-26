@@ -1,8 +1,8 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 // importamos la url de la api de los eviroments
-import { environment, } from '../../environments/environment.development';
 import { Observable, catchError, throwError } from 'rxjs';
+import { environment, } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -41,4 +41,18 @@ export class LoginService {
       catchError(this.sendError)
     );
   }
+
+  logout(): Observable<any>{
+    const url = this.baseurl+'users/logout';
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      //'access-control-allow-origin': '*',
+      //'Authorization': 'Bearer YourAccessToken',  // Agrega aquí tu token de autorización si es necesario
+    });
+    return this.http.post<any>(url,{},{ headers: headers }).pipe(
+      catchError(this.sendError)
+    );
+  }
+  
 }

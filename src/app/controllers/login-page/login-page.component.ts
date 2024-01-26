@@ -59,8 +59,15 @@ export class LoginPageComponent implements OnInit {
     if(this.loginForm.valid){
       this.loginService.login(this.loginForm.value).subscribe({
         next: (data:any)=>{
-          console.log(data);
+          //console.log(data);
+          //guardamos el token en el session storage
           sessionStorage.setItem('token', data.noti_token);
+          
+          //guardamos el nombre y el response en el session storage
+          sessionStorage.setItem('name', data.data.name);
+          //sessionStorage.setItem('response', JSON.stringify(data));
+          sessionStorage.setItem('success', data.response);
+          //redirigimos al home
           this.router.navigate(['/home']);
           this.loginForm.reset();
         },
