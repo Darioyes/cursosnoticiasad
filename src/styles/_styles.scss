@@ -7,6 +7,9 @@
     font-family: font.$main-family-light;
     box-sizing: border-box;
     min-width: 0;
+    a{
+        text-decoration: none;
+    }
 }
 
 body{

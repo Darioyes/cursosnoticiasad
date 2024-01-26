@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './categories-news-page.component.html',
   styleUrl: './categories-news-page.component.scss'
 })
-export default class CategoriesNewsPageComponent {
+export class CategoriesNewsPageComponent {
 
 }

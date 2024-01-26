@@ -6,11 +6,14 @@
                 }
                 <img class="form-login__logo" src="../../../../assets/images/logo.jpg" alt="LogoNotiWeb">
                 <div class="form-login__input">
-                    @if (loginErrors?.errorNews == true) {
+                    @if (loginErrors?.response == 'error') {
                         <p class="alert alert-error form-login__input--error" >{{loginErrors?.message}}</p>
                     }
                     <label class="form-login__input--label" for="email">Email: </label>
-                    <input formControlName="email" class="form-login__input--field" type="email" name="email" id="email" >
+                    <input formControlName="email" 
+                    class="form-login__input--field" 
+                    type="email" name="email" id="email"
+                    value autocomplete="username" >
                     @if (email?.errors?.['required'] && email?.touched) {
                         <p class="alert alert-error " >El email es obligatorio</p>
                     }
@@ -23,7 +26,11 @@
                 </div>
                 <div class="form-login__input">
                     <label class="form-login__input--label" for="password">Password: </label>
-                    <input formControlName="password" class="form-login__input--field" type="password" name="password" id="password">
+                    <input formControlName="password" 
+                    class="form-login__input--field" 
+                    type="password" name="password" 
+                    id="password"
+                    value autocomplete="current-password">
                     @if (password?.errors?.['required'] && password?.touched) {
                         <p class="alert alert-error">El password es obligatorio</p>
                     }

@@ -1,0 +1,16 @@
+<div class="conteiner-nav">
+
+    @for( item of menuItems; track $index ){
+     <!-- <div class="conteiner-nav__item" > -->
+            <a class="conteiner-nav__item"
+                [routerLink]="item.path"
+                routerLinkActive="active-nav"
+            >
+                <span> {{item.title}} </span>
+            </a>
+
+        <!-- </div> -->
+    }
+
+</div>
+

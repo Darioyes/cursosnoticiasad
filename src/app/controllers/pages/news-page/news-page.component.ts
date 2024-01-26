@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './news-page.component.html',
   styleUrl: './news-page.component.scss'
 })
-export default class NewsPageComponent {
+export class NewsPageComponent {
 
 }

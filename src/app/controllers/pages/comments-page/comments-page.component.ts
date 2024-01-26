@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './comments-page.component.html',
   styleUrl: './comments-page.component.scss'
 })
-export default class CommentsPageComponent {
+export class CommentsPageComponent {
 
 }

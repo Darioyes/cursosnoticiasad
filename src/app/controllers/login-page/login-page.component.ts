@@ -1,8 +1,9 @@
 import { AsyncPipe, CommonModule, JsonPipe } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoginService } from '@services/login.service';
-import { Router } from '@angular/router'
 
 
 
@@ -14,12 +15,12 @@ import { Router } from '@angular/router'
     ReactiveFormsModule,
     JsonPipe,
     AsyncPipe,
-    //HttpClientModule
+    HttpClientModule
   ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss'
 })
-export default class LoginPageComponent implements OnInit {
+export class LoginPageComponent implements OnInit {
 
   //creamos el formgroup para el formulario
   public loginForm = new FormGroup({
@@ -30,6 +31,8 @@ export default class LoginPageComponent implements OnInit {
   public formbuilder = inject(FormBuilder);
   //inyectamos el servicio de login
   public loginService = inject(LoginService);
+  //inyectamos el Httpclient
+  public httpClient = inject(HttpClientModule);
   //inyectamos el router
   public router = inject(Router);
   //variable para validar el formulario
@@ -62,7 +65,7 @@ export default class LoginPageComponent implements OnInit {
           this.loginForm.reset();
         },
         error: (error)=>{
-          //console.log(error);
+          //console.log(error.message);
           this.loginErrors = error.message;
           this.errorslogin = !this.errorslogin;
         },

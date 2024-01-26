@@ -1,0 +1,24 @@
+@use '../../../styles/variables/colors.scss' as color;
+
+.conteiner-nav{
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    gap: 2px;
+    background: color.$blue-institutional-dark;
+    padding: 5px;
+
+    &__item{
+        width: 100px;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+}
+.active-nav{
+    background: plum;
+}
