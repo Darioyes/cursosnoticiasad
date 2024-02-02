@@ -1,18 +1,18 @@
 export interface INews {
   response: string;
   message: string;
-  data: Data;
+  data: IData;
   error: boolean;
 }
 
- export interface Data {
+ export interface IData {
   current_page: number;
-  data: News[];
+  data: INewsOne[];
   first_page_url: string;
   from: number;
   last_page: number;
   last_page_url: string;
-  links: Link[];
+  links: ILink[];
   next_page_url?: any;
   path: string;
   per_page: number;
@@ -21,13 +21,13 @@ export interface INews {
   total: number;
 }
 
- export interface Link {
+ export interface ILink {
   url?: string;
   label: string;
   active: boolean;
 }
 
- export interface News {
+ export interface INewsOne {
   id: number;
   epigraph?: string;
   title: string;
@@ -40,13 +40,13 @@ export interface INews {
   updated_at?: string;
   category_news_id?: number;
   category_course_id?: number;
-  articles: Article[];
-  category_news?: Categorynew[];
-  category_course?: Categorycourse[];
+  articles: IArticle[];
+  category_news?: ICategorynew[];
+  category_course?: ICategorycourse[];
   comments: Comment[];
 }
 
- export interface Comment {
+ export interface IComment {
   id: number;
   comment: string;
   news_id: number;
@@ -54,14 +54,14 @@ export interface INews {
   updated_at?: string;
 }
 
- export interface Categorynew {
+ export interface ICategorynew {
   id: number;
   name: string;
   slug: string;
   created_at?: string;
   updated_at?: string;
 }
- export interface Categorycourse {
+ export interface ICategorycourse {
     id: number;
     name: string;
     slug: string;
@@ -69,7 +69,7 @@ export interface INews {
     updated_at?: string;
   }
 
-export interface Article {
+export interface IArticle {
   id: number;
   subtitle: string;
   entrance: string;

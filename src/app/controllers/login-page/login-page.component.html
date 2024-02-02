@@ -39,9 +39,15 @@
                     }
                 </div>
                 <div class="form-login__button">
-                    <button class=" btn form-login__input--button" type="submit" name="button"
-                    [disabled]="loginForm.invalid"
-                    >Ingresar</button>
+                    @if (!loadingButton) {
+                        <button class=" btn form-login__input--button" type="submit" name="button"
+                        [disabled]="loginForm.invalid"
+                        >Ingresar</button>
+                    }@else {
+                        <button class=" btn form-login__input--button" type="submit" name="button"
+                        [disabled]="loginForm.invalid"
+                        ><app-loading-button /> </button>
+                    }
                 </div>
             </form>
     </div>

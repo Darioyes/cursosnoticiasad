@@ -8,7 +8,7 @@ import { environment, } from '../../environments/environment.development';
   providedIn: 'root'
 })
 export class LoginService {
-  baseurl = environment.apiUrlBase;
+  baseurl = environment.apiUrlBase+'api/';
   
 
   private http = inject(HttpClient);
@@ -33,7 +33,7 @@ export class LoginService {
     const url = this.baseurl+'users/login';
     const headers = new HttpHeaders({
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
+      //'Content-Type': 'application/json',
       //'access-control-allow-origin': '*',
       //'Authorization': 'Bearer YourAccessToken',  // Agrega aquí tu token de autorización si es necesario
     });
@@ -46,7 +46,7 @@ export class LoginService {
     const url = this.baseurl+'users/logout';
     const headers = new HttpHeaders({
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
+     // 'Content-Type': 'application/json',
       //'access-control-allow-origin': '*',
       //'Authorization': 'Bearer YourAccessToken',  // Agrega aquí tu token de autorización si es necesario
     });

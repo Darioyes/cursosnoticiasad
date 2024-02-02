@@ -1,9 +1,10 @@
-import { AsyncPipe, CommonModule, JsonPipe } from '@angular/common';
+import { AsyncPipe, JsonPipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '@services/login.service';
+import { LoadingButtonComponent } from '@shared/loading-button/loading-button.component';
 
 
 
@@ -11,11 +12,11 @@ import { LoginService } from '@services/login.service';
   selector: 'app-login-page',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     JsonPipe,
     AsyncPipe,
-    HttpClientModule
+    HttpClientModule,
+    LoadingButtonComponent
   ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss'
@@ -39,6 +40,7 @@ export class LoginPageComponent implements OnInit {
   public valid: boolean = false;
   public loginErrors: any | undefined = {};
   public errorslogin: boolean = false;
+  public loadingButton: boolean = false;
 
   ngOnInit() {
     //inicializamos el formulario del formgroup
@@ -57,6 +59,7 @@ export class LoginPageComponent implements OnInit {
   loginUser(){
     //validamos el formulario
     if(this.loginForm.valid){
+      this.loadingButton = !this.loadingButton;
       this.loginService.login(this.loginForm.value).subscribe({
         next: (data:any)=>{
           //console.log(data);
@@ -75,9 +78,11 @@ export class LoginPageComponent implements OnInit {
           //console.log(error.message);
           this.loginErrors = error.message;
           this.errorslogin = !this.errorslogin;
+          this.loadingButton = !this.loadingButton;
         },
         complete: ()=>{
           console.log('complete');
+          this.loadingButton = !this.loadingButton;
         }
       });
       //this.loginForm.reset();

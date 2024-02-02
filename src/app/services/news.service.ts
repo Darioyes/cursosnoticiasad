@@ -12,7 +12,8 @@ export class NewsService {
   constructor() { }
 
   private http = inject(HttpClient);
-  public baseurl = environment.apiUrlBase
+  public baseurl = environment.apiUrlBase+'api/'
+  public modal: boolean | any;
 
 
   sendError(error: HttpErrorResponse) {
@@ -30,11 +31,19 @@ export class NewsService {
     return throwError(() =>  ({ message: errorMessage, errors: error.error.errors, errorNews: errorNews}));
   }
 
-  getnews(){
-    const url = this.baseurl+'news';
+  getnews(id?:any){
+     let url = '';
+
+    if(id){
+      url = this.baseurl+'news/'+id;
+      this.modal = true;
+
+    }else{
+      url = this.baseurl+'news';
+    };
     const headers = new HttpHeaders({
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
+      //'Content-Type': 'application/json',
     });
     return this.http.get<INews>(url,{ headers: headers }).pipe(
       catchError(this.sendError)
@@ -44,9 +53,31 @@ export class NewsService {
     const url = page;
     const headers = new HttpHeaders({
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
+      //'Content-Type': 'application/json',
     });
     return this.http.get<any>(url,{ headers: headers }).pipe(
+      catchError(this.sendError)
+      );
+  }
+
+
+  getModalActive(){
+    return this.modal;
+  }
+
+
+  //------Article----------
+
+  createArticle(data:any){
+    const url = this.baseurl+'articles';
+    const headers = new HttpHeaders({
+      //enviar encabezados para arhivos y texto
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data',
+
+      
+    });
+    return this.http.post<any>(url,data,{ headers: headers }).pipe(
       catchError(this.sendError)
       );
   }

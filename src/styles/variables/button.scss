@@ -1,6 +1,8 @@
 @use '../variables/colors.scss' as color;
 
 .btn{
+    width: 200px;
+    height: 45px;
     background-color: color.$blue-institutional-dark;
     color: #fff;
     border: color.$blue-institutional-dark;
@@ -58,8 +60,8 @@
         border: color.$success-dark;
         &:hover{
             background-color: color.$success-light;
-            color: #fff;
-            border: color.$success-dark;
+            color: color.$success-dark;
+            border: 1px solid color.$success-dark;
         }
         &:disabled{
             background-color: #a4a3a3;
@@ -73,8 +75,8 @@
         border: color.$danger-dark;
         &:hover{
             background-color: color.$danger-light;
-            color: #fff;
-            border: color.$danger-dark;
+            color: color.$danger-dark;
+            border: 1px solid color.$danger-dark;
         }
     }
     &.btn-warning{
@@ -83,8 +85,8 @@
         border: color.$warning-dark;
         &:hover{
             background-color: color.$warning-light;
-            color: #fff;
-            border: color.$warning-dark;
+            color: color.$warning-dark;
+            border: 1px solid color.$warning-dark;
         }
     }
 }

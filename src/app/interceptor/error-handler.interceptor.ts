@@ -9,6 +9,8 @@ export const errorHandlerInterceptor: HttpInterceptorFn = (req, next): Observabl
   if(token) {
     req = req.clone({
       setHeaders: {
+        //'Accept': 'application/json',
+        //'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
       },
     });

@@ -1,82 +1,113 @@
- <section class="conteiner-news">
-
-    <div class="conteiner-news__title">
-        <app-title [title]="news?.message"></app-title>
-    </div>
-    <div class="conteiner-news__table">
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        Titulo
-                    </th>
-                    <th>
-                        Contenido
-                    </th>
-                    <th>
-                        Destacado
-                    </th>
-                    <th>
-                        Visible
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @if(news?.error === false){
-                    @for (item of news.data.data; track news.data.data.id) {
+<section class="conteiner-news">
+    @if (!news) {
+        <app-title title="Buscando Noticias"></app-title>
+    }
+    @defer ( when news?.error === false  ) {
+        <dialog [open] = "openModal" class="conteiner-news__dialog">
+            <app-detail-news 
+            [newsId] = "newsId" 
+            [activeGet] = 'activeGet'
+            (modalClose) = "closeModal($event)"  />
+        </dialog>
         
+        
+        <div class="conteiner-news__title">
+            @if (news?.error === false) {
+                <app-title [title]="news?.message"></app-title>
+            }
+        </div>
+        <div class="conteiner-news__table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Título
+                        </th>
+                        <th>
+                            Contenido
+                        </th>
+                        <th>
+                            Destacado
+                        </th>
+                        <th>
+                            Visible
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(news?.error === false){
+                        @for (item of news.data.data; track news.data.data.id) {
+            
+                            <tr (click)="getId(item.id)">
+                                <td >
+                                    {{item.title}}
+                                </td>
+                                <td>
+                                    {{item.content}}
+                                </td>
+                                <td>
+                                    @if (item.featured === 1) {
+                                        Si
+                                    }@else{
+                                        No
+                                    }
+                                </td>
+                                <td>
+                                    @if(item.visible=== 1){
+                                        Si
+                                    }@else {
+                                        No
+                                    }
+                                    
+                                </td>
+                            </tr>
+                        }@empty {
+                            <tr>
+                                <td colspan="4">
+                                    <p>No hay noticias</p>
+                                </td>
+                            </tr>}
+                    }@else {
                         <tr>
-                            <td>
-                                <a href="">{{item.title}}</a> 
-                            </td>
-                            <td>
-                                {{item.content}}
-                            </td>
-                            <td>
-                                @if (item.featured === 1) {
-                                    Si
-                                }@else{
-                                    No
-                                }
-                            </td>
-                            <td>
-                                @if(item.visible=== 1){
-                                    Si
-                                }@else {
-                                    No
-                                }
-                                
+                            <td colspan="4">
+                                Error al buscar la información
                             </td>
                         </tr>
                     }
-                }
-            </tbody>
-        </table>
-    </div>
-    <div class="conteiner-news__pagination">
-        <div class="container-pagination">
-            <div class="container-pagination__links">
-                
-                @for (item of news?.data?.links; track $index) {
-                    @if (item.label === '&laquo; Anterior') {
-                        <a  (click)="pagination(news.data.prev_page_url)">Anterior</a>
-                    }@else if (item.label ==='Siguiente &raquo;' ) {
-                        <a  (click)="pagination(news.data.next_page_url)">Siguiente</a>
-                    }@else{
-                        <a  
-                        (click)="pagination(item.url)"
-                        [ngClass]="{'active-page': item.active}"
-                        >{{item.label}}</a>
+                </tbody>
+            </table>
+        </div>
+        <div class="conteiner-news__pagination">
+                <div class="container-pagination__links">
+                    @for (item of news?.data?.links; track $index) {
+                        @if (item.label === '&laquo; Anterior') {
+                            <a  (click)="pagination(news.data.prev_page_url)">Anterior</a>
+                        }@else if (item.label ==='Siguiente &raquo;' ) {
+                            <a  (click)="pagination(news.data.next_page_url)">Siguiente</a>
+                        }@else{
+                            <a  
+                            (click)="pagination(item.url)"
+                            [ngClass]="{'active-page': item.active}"
+                            >{{item.label}}</a>
+                        }
                     }
-                }
-            </div>
-            <div class="container-pagination__page">
-                <p>{{news?.data?.to}}|{{news?.data?.total}} </p>
-            </div>
+                </div>
+                <div class="container-pagination__page">
+                    <p>{{news?.data?.to}} / {{news?.data?.total}} </p>
+                </div>
+                <div>
+                    <button class="btn btn-success" >Nueva noticia</button>
+                </div>
         </div>
-        <div>
+        
+        
+    }@placeholder {
+        @if (errorNews) {
+            
+            <p class="alert alert-error">Error en la petición</p>
+        }@else {
 
-        </div>
-    </div>
-     
- </section>
+            <app-loading class="table-loading" />
+        }
+    }
+</section>

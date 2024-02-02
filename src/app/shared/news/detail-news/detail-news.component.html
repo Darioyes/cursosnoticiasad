@@ -1,0 +1,182 @@
+<section class="conteiner-news-one">
+    
+    <div class="conteiner-news-one__close">
+        <a (click)="closeModal()"  >
+            <i class="fa-solid fa-x"></i>
+        </a>
+    </div>
+
+    @defer ( when news?.error === false ) {
+
+        <div class="conteiner-news-one__title">
+            <app-title [title]="news?.message"></app-title>
+        </div>
+
+        <div class="conteiner-news-one__description">
+            <div class="conteiner-news-one__description--label">
+                <label for="title">Título</label>
+                <p>{{news?.data?.title}}</p>
+            </div>
+            <div class="conteiner-news-one__description--label">
+                <label for="epigraph">Epígrafe</label>
+                <p>{{news?.data?.epigraph}}</p>
+            </div>
+            <div class="conteiner-news-one__description--label">
+                <label for="content">Contenido</label>
+                <p>{{news?.data?.content}}</p>
+            </div>
+            <div class="conteiner-news-one__description--label">
+                <label for="visible">visible</label>
+                <p>{{news?.data?.visible === 1 ? 'Si':'No'}}</p>
+            </div>
+            <div class="conteiner-news-one__description--label">
+                <label for="featured">Principal</label>
+                <p>{{news?.data?.featured === 1 ? 'Si':'No'}}</p>
+            </div>
+            <div class="conteiner-news-one__description--label">
+                <label for="featured">Categoría</label>
+                @if ( news?.data?.category_course === null ) {
+                    <p>{{news?.data?.category_news?.name}}</p>
+                }@else{
+                    <p>{{news?.data?.category_course?.name}}</p>
+                }
+            </div>
+            <div class="conteiner-news-one__description--label">
+                <label for="featured">Fecha de creación</label>
+                <p>{{news?.data?.created_at | date}}</p>
+            </div>
+            <div class="conteiner-news-one__description--label">
+                <label for="featured">Fecha modificación</label>
+                <p>{{news?.data?.updated_at | date}}</p>
+            </div>
+        </div>
+        <div class="conteiner-news-one__image">
+            <img src="{{images}}" alt="{{news?.data?.title}}">
+        </div>
+
+        <div class="conteiner-news-one__btn">
+            <button class="btn btn-warning" >Modificar</button>
+            <button class="btn btn-danger" >Eliminar</button>
+        </div>
+
+        
+        @if(news?.data?.articles.length >= 0){
+            
+            @for (item of news?.data?.articles; track item.id; let i = $index ) {
+                <div class="conteiner-news-one__title">
+                    <h2>Articulos {{i+1}}</h2>
+                </div>
+                <div class="conteiner-news-one__description">
+                    <div class="conteiner-news-one__description--label">
+                        <label for="subtitle">Subtitulo</label>
+                        <p>{{item.subtitle}}</p>
+                    </div>
+                    <div class="conteiner-news-one__description--label">
+                        <label for="entrance">Entrada</label>
+                        <p>{{item.entrance}}</p>
+                    </div>
+                </div>
+                <div class="conteiner-news-one__full">
+                    <label for="body_news">Contenido</label>
+                    <p>{{item.body_news}}</p>
+                </div>
+
+                <div class="conteiner-news-one__image">
+                    <img src="{{UrlImgA+item.image.replace('public', 'storage')}}" >
+                </div>
+
+                <div class="conteiner-news-one__btn">
+                    <button class="btn btn-warning" >Modificar</button>
+                    <button class="btn btn-danger" >Eliminar</button>
+                </div>
+                
+            }@empty {
+                <div class="conteiner-news-one__title">
+                    <h2>No hay articulos</h2>
+                </div>
+            }
+            <div class="conteiner-news-one__btn">
+                <button class="btn btn-success" (click)="newArticleOpen()" >Nuevo articulo</button>
+            </div>
+        }
+
+        <!-- aca abajo va el formulario de ingresar articulos -->
+        @if (newArticle) {
+            <form [formGroup]="articleForm" (submit)="newArticleSend()"
+             class="conteiner-news-one__form"  
+             enctype="multipart/form-data"
+            >
+                <!-- input oculto -->
+                <label for="" >{{newsId}}</label>
+                <input type="number" name="news_id"  formControlName='news_id' >
+                <div class="conteiner-news-one__description">
+                    <div class="conteiner-news-one__description--label">
+                        <label for="subtitle">Subtitulo</label>
+                        <input name="subtitle" type="text" formControlName="subtitle">
+                        @if (subtitle?.errors?.['required'] && subtitle?.touched) {
+                            <p class="alert alert-error">El subtitulo es obligatorio</p>
+                        }
+                        
+                    </div>
+                    <div class="conteiner-news-one__description--label">
+                        <label for="entrance">Entrada</label>
+                        <input  name="entrance" type="text" formControlName="entrance">
+                        @if (entrance?.errors?.['required'] && entrance?.touched) {
+                            <p class="alert alert-error">La entrada es requerida</p>
+                        }
+                    </div>
+                </div>
+                <div class="conteiner-news-one__full">
+                    <label for="body_news">Contenido</label>
+                    <textarea type="text" name="body_news" formControlName="body_news" ></textarea>
+                    @if (body_news?.errors?.['required'] && body_news?.touched) {
+                        <p class="alert alert-error">El contenido es requerido</p>
+                    }
+                </div>
+                <div class="conteiner-news-one__description--label">
+                    <input type="file" name="image" formControlName="image" >
+                    
+                </div>
+                <div class="conteiner-news-one__btn">
+                    <button class="btn btn-success" type="submit" name="buttonArtile"  >Guardar</button>
+                    <button class="btn btn-danger" (click)="newArticleOpen()" >Cancelar</button>
+                </div>
+    
+            </form>
+
+        }
+
+
+        @if (news?.data?.comments.length >= 0) {
+            @for (item of news?.data?.comments; track item.id; let i = $index) {
+                <div class="conteiner-news-one__title">
+                    <h2>Comentario {{i+1}}</h2>
+                </div>
+                
+                <div class="conteiner-news-one__full">
+                    <label for="comment">Comentario</label>
+                    <p>{{item.comment}}</p>
+                </div>
+
+                <div class="conteiner-news-one__btn">
+                    <button class="btn btn-warning" >Modificar</button>
+                    <button class="btn btn-danger" >Eliminar</button>
+                </div>
+            }
+        }
+
+    
+    }@placeholder {
+        <!-- @if (errorNews) {
+                
+            <p class="alert alert-error">Error en la petición</p>
+        }@else {
+    
+            <app-loading class="table-loading" />
+        } -->
+        <app-loading class="table-loading" />
+    }
+
+</section>
+
+
