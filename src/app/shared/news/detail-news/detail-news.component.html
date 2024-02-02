@@ -87,7 +87,7 @@
 
                 <div class="conteiner-news-one__btn">
                     <button class="btn btn-warning" >Modificar</button>
-                    <button class="btn btn-danger" >Eliminar</button>
+                    <button class="btn btn-danger" (click)="deleteOneArticle(item.id)" >Eliminar</button>
                 </div>
                 
             }@empty {
@@ -104,11 +104,17 @@
         @if (newArticle) {
             <form [formGroup]="articleForm" (submit)="newArticleSend()"
              class="conteiner-news-one__form"  
-             enctype="multipart/form-data"
-            >
+             enctype="multipart/form-data">
+             @if (articleForm.valid) {
+                <p class="alert alert-error">{{messageArticleError}}</p>
+             }
                 <!-- input oculto -->
-                <label for="" >{{newsId}}</label>
-                <input type="number" name="news_id"  formControlName='news_id' >
+                <input type="hidden" name="news_id" formControlName='news_id' >
+                @if (errorsArticle?.news_id?.length>0) {
+                    @for (item of errorsArticle?.news_id; track $index) {
+                        <p class="alert alert-error">{{item}}</p>
+                    }
+                }
                 <div class="conteiner-news-one__description">
                     <div class="conteiner-news-one__description--label">
                         <label for="subtitle">Subtitulo</label>
@@ -116,6 +122,12 @@
                         @if (subtitle?.errors?.['required'] && subtitle?.touched) {
                             <p class="alert alert-error">El subtitulo es obligatorio</p>
                         }
+                        @if (errorsArticle?.subtitle?.length>0) {
+                            @for (item of errorsArticle?.subtitle; track $index) {
+                                <p class="alert alert-error">{{item}}</p>
+                            }
+                        }
+                        
                         
                     </div>
                     <div class="conteiner-news-one__description--label">
@@ -123,6 +135,11 @@
                         <input  name="entrance" type="text" formControlName="entrance">
                         @if (entrance?.errors?.['required'] && entrance?.touched) {
                             <p class="alert alert-error">La entrada es requerida</p>
+                        }
+                        @if (errorsArticle?.entrance?.length>0) {
+                            @for (item of errorsArticle?.entrance; track $index) {
+                                <p class="alert alert-error">{{item}}</p>
+                            }
                         }
                     </div>
                 </div>
@@ -132,14 +149,24 @@
                     @if (body_news?.errors?.['required'] && body_news?.touched) {
                         <p class="alert alert-error">El contenido es requerido</p>
                     }
+                    @if (errorsArticle?.body_news?.length>0) {
+                        @for (item of errorsArticle?.body_news; track $index) {
+                            <p class="alert alert-error">{{item}}</p>
+                        }
+                    }
                 </div>
                 <div class="conteiner-news-one__description--label">
-                    <input type="file" name="image" formControlName="image" >
-                    
+                    <input type="file" name="image" formControlName="image" (change)="onFileChange($event)" >
+                    @if (errorsArticle?.image?.length>0) {
+                        @for (item of errorsArticle?.image; track $index) {
+                            <p class="alert alert-error">{{item}}</p>
+                        }
+                    }
                 </div>
                 <div class="conteiner-news-one__btn">
-                    <button class="btn btn-success" type="submit" name="buttonArtile"  >Guardar</button>
-                    <button class="btn btn-danger" (click)="newArticleOpen()" >Cancelar</button>
+                    <button class="btn btn-success" type="submit" name="buttonArtile" 
+                    [disabled]="articleForm.invalid">Guardar</button>
+                    <button class="btn btn-danger" (click)="newArticleClose()" >Cancelar</button>
                 </div>
     
             </form>

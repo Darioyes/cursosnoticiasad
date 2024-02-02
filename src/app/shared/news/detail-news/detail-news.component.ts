@@ -32,6 +32,7 @@ export class DetailNewsComponent implements OnChanges, OnInit{
   public newArticle: boolean | any = false;
   public articleForm:any = new FormGroup({});
   public messageArticleError: string | any = '';
+  public errorsArticle: string[] | any = [];
 
   @Input( ) newsId: number | any;
   @Input( ) activeGet: boolean | any = false;
@@ -39,6 +40,7 @@ export class DetailNewsComponent implements OnChanges, OnInit{
 
 //inplemantamos el ngOnInit para inicializar el formulario
   ngOnInit() {
+   
     
     this.articleForm = this.formbuilder.group({
       news_id: '',
@@ -47,10 +49,16 @@ export class DetailNewsComponent implements OnChanges, OnInit{
       body_news: ['',Validators.compose([Validators.required,Validators.maxLength(10000),Validators.minLength(5)])],
       image: ['']
     });
-    
+  
+   
+      //  this.articleForm.setValue({
+      //   news_id: this.news.data.id ? this.news.data.id: 'no hay id',
+      //   });
+   
     
   }
-
+  
+  
   get news_id() { return this.articleForm.get('news_id'); }
   get subtitle() { return this.articleForm.get('subtitle'); }
   get entrance() { return this.articleForm.get('entrance'); }
@@ -58,11 +66,16 @@ export class DetailNewsComponent implements OnChanges, OnInit{
   get image() { return this.articleForm.get('image'); }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const UrlImg = environment.apiUrlBase;
-    if(this.activeGet){
+    this.getOneNews(this.activeGet);
+    
+  }
+  //metodo para solicitar una noticia
+  getOneNews(num:number){
+    if(num){
+      const UrlImg = environment.apiUrlBase;
       this.newService.getnews(this.newsId).subscribe({
         next: (response:INews | any) => {
-          console.log(response);
+          //console.log(response);
           this.news = response;
           this.images = UrlImg+response.data.image.replace('public', 'storage');
           
@@ -72,11 +85,12 @@ export class DetailNewsComponent implements OnChanges, OnInit{
           
         },
         complete: () => {
-          console.log('complete');
+          console.log('complete otro');
+          
         }
       });
     }
-  }
+  };
 
   //metodo para enviar a travez de output el valor de la variable openModal a false al padre que es news-page
   closeModal(){
@@ -89,38 +103,59 @@ export class DetailNewsComponent implements OnChanges, OnInit{
   
   newArticleOpen(){
     this.newArticle = !this.newArticle;
-    // this.articleForm.setValue({
-    //   news_id: this.newsId,
-    //   subtitle: 'hola',
-    //   entrance: '',
-    //   body_news: '',
-    //   image: ''
-    // });
+    this.articleForm.setValue({
+      news_id: this.news.data.id ? this.news.data.id  : '',
+      subtitle: '',
+      entrance: '',
+      body_news: '',
+      image: ''
 
-    
-    this.articleForm.reset();
+
+    });
+
    
   };
+  newArticleClose(){
+    this.newArticle = !this.newArticle;
+    this.articleForm.reset();
+      }
 
   newArticleSend(){
     if(this.articleForm.valid){
+
+      const formData = new FormData();
+      formData.append('news_id', this.articleForm.get('news_id')?.value);
+      formData.append('subtitle', this.articleForm.get('subtitle')?.value);
+      formData.append('entrance', this.articleForm.get('entrance')?.value);
+      formData.append('body_news', this.articleForm.get('body_news')?.value);
+      formData.append('image', this.articleForm.get('image')?.value);
       
-      console.log(this.articleForm.value);
-      this.newService.createArticle(this.articleForm.value).subscribe({
+      //console.log(this.articleForm.value);
+      this.newService.createArticle(formData).subscribe({
         next: (response: any) => {
-          console.log(response);
+          //console.log(response);
+          this.getOneNews(this.activeGet);
+          //borrar el formulario
+          this.articleForm.reset();
+          if(response.error === false){
+            this.newArticle = false;
+            alert(response.message);
+          };
+          //actualizar la lista de articulos con el nuevo articulo
+
           
         },
         error: (error: any) => {
-          console.log(error);
-          console.log(this.articleForm.value);
+          //error.errors.image
+          //console.log(error.errors);
+          this.errorsArticle = error.errors;
         },
         complete: () => {
           console.log('complete');
         }
       });
     }else{
-      this.messageArticleError = 'El formulario no es valido';
+      this.messageArticleError = 'Todos los campos son obligatorios';
     }
   }
 
@@ -130,7 +165,27 @@ export class DetailNewsComponent implements OnChanges, OnInit{
       image: file
     });
     this.articleForm.get('image').updateValueAndValidity();
+    event.target.value = '';
   }
 
+  deleteOneArticle(id:number){
+    const confirmDelete = confirm(`¿Estas seguro de eliminar este articulo?`);
+    if(confirmDelete){
+      //console.log(id);
+      this.newService.deleteArticle(id).subscribe({
+        next: (response: any) => {
+          //console.log(response);
+          this.getOneNews(this.activeGet);
+
+        },
+        error: (error: any) => {
+          console.log(error);
+        },
+        complete: () => {
+          console.log('complete');
+        }
+      });
+    }
+  }
 
 }

@@ -52,7 +52,7 @@ export class NewsPageComponent {
   pagination(pag:any){
     this.newsServices.getPagination(pag).subscribe({
       next: (response: any) => {
-        console.log(response);
+        //console.log(response);
         this.news = response;
         
       },

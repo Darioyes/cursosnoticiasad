@@ -73,11 +73,22 @@ export class NewsService {
     const headers = new HttpHeaders({
       //enviar encabezados para arhivos y texto
       'Accept': 'application/json',
-      'Content-Type': 'multipart/form-data',
+      //'Content-Type': 'multipart/form-data',
 
       
     });
     return this.http.post<any>(url,data,{ headers: headers }).pipe(
+      catchError(this.sendError)
+      );
+  }
+
+  deleteArticle(id:number){
+    const url = this.baseurl+'articles/'+id;
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      //'Content-Type': 'application/json',
+    });
+    return this.http.delete<any>(url,{ headers: headers }).pipe(
       catchError(this.sendError)
       );
   }
