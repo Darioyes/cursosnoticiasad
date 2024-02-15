@@ -82,6 +82,29 @@ export class NewsService {
       );
   }
 
+  modifyArticle(data:any,id:number){
+    const url = this.baseurl+'articles/'+id;
+    const headers = new HttpHeaders({
+      //enviar encabezados para arhivos y texto
+      'Accept': 'application/json',
+      //'Content-Type': 'multipart/form-data',
+    });
+    return this.http.put<any>(url,data,{ headers: headers }).pipe(
+      catchError(this.sendError)
+      );
+  }
+
+  getArticle(id:number){
+    const url = this.baseurl+'articles/'+id;
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      //'Content-Type': 'application/json',
+    });
+    return this.http.get<any>(url,{ headers: headers }).pipe(
+      catchError(this.sendError)
+      );
+  }
+
   deleteArticle(id:number){
     const url = this.baseurl+'articles/'+id;
     const headers = new HttpHeaders({

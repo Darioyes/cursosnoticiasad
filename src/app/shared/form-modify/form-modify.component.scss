@@ -1,47 +1,7 @@
-@use '../../../../styles/variables/colors.scss' as color;
+@use '../../../styles/variables/colors.scss' as color;
 
 .conteiner-news-one{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: first baseline;
-    flex-direction: column;
-    //colocar una el scroll
-    overflow-y: scroll;
-
-    &__close{
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        padding: 5px 10px;
-        background: #999;
-        
-        a{
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #fff;
-            padding: 5px;
-            border: 1.5px solid color.$danger;
-            color: color.$danger;
-            &:hover{
-                background: color.$danger;
-                color: #fff;
-                cursor: pointer;
-            }
-        }
-    }
-
-    &__title{
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+ 
     &__form{
         width: 100%;
     }
@@ -150,9 +110,5 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
-    }
-
-    app-form-modify{
-        width: 100%;
     }
 }

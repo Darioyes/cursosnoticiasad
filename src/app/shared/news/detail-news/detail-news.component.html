@@ -43,11 +43,11 @@
             </div>
             <div class="conteiner-news-one__description--label">
                 <label for="featured">Fecha de creación</label>
-                <p>{{news?.data?.created_at | date}}</p>
+                <p>{{news?.data?.created_at | date: 'dd/MM/yyyy'}}</p>
             </div>
             <div class="conteiner-news-one__description--label">
                 <label for="featured">Fecha modificación</label>
-                <p>{{news?.data?.updated_at | date}}</p>
+                <p>{{news?.data?.updated_at | date: 'dd/MM/yyyy'}}</p>
             </div>
         </div>
         <div class="conteiner-news-one__image">
@@ -55,48 +55,55 @@
         </div>
 
         <div class="conteiner-news-one__btn">
-            <button class="btn btn-warning" >Modificar</button>
-            <button class="btn btn-danger" >Eliminar</button>
+            <button class="btn btn-warning" [disabled]="modifyArticle" >Modificar</button>
+            <button class="btn btn-danger" [disabled]="modifyArticle"  >Eliminar</button>
         </div>
 
         
         @if(news?.data?.articles.length >= 0){
+            @if(!modifyArticle){
             
-            @for (item of news?.data?.articles; track item.id; let i = $index ) {
-                <div class="conteiner-news-one__title">
-                    <h2>Articulos {{i+1}}</h2>
-                </div>
-                <div class="conteiner-news-one__description">
-                    <div class="conteiner-news-one__description--label">
-                        <label for="subtitle">Subtitulo</label>
-                        <p>{{item.subtitle}}</p>
+                @for (item of news?.data?.articles; track item.id; let i = $index ) {
+                        <div class="conteiner-news-one__title">
+                            <h2>Articulos {{i+1}} </h2>
+                        </div>
+                        <div class="conteiner-news-one__description">
+                            <div class="conteiner-news-one__description--label">
+                                <label for="subtitle">Subtitulo</label>
+                                    <p>{{item.subtitle}}</p>
+                            </div>
+                            <div class="conteiner-news-one__description--label">
+                                <label for="entrance">Entrada</label>
+                                    <p>{{item.entrance}}</p>
+                            </div>
+                        </div>
+                        <div class="conteiner-news-one__full">
+                            <label for="body_news">Contenido</label>
+                                <p>{{item.body_news}}</p>
+                        </div>
+                        <div class="conteiner-news-one__image">
+                            <img src="{{UrlImgA+item?.image?.replace('public', 'storage')}}" alt="{{item?.subtitle}}" >
+                        </div>
+                        <div class="conteiner-news-one__btn">
+                            <button class="btn btn-warning" type="menu"
+                            (click)="modifyArticleOpen(item.id)" 
+                            >Modificar</button>
+                            <button class="btn btn-danger" (click)="deleteOneArticle(item.id)" >Eliminar</button>
+                        </div>
+                    
+                }@empty {
+                    <div class="conteiner-news-one__title">
+                        <h2>No hay articulos</h2>
                     </div>
-                    <div class="conteiner-news-one__description--label">
-                        <label for="entrance">Entrada</label>
-                        <p>{{item.entrance}}</p>
-                    </div>
-                </div>
-                <div class="conteiner-news-one__full">
-                    <label for="body_news">Contenido</label>
-                    <p>{{item.body_news}}</p>
-                </div>
-
-                <div class="conteiner-news-one__image">
-                    <img src="{{UrlImgA+item.image.replace('public', 'storage')}}" >
-                </div>
-
-                <div class="conteiner-news-one__btn">
-                    <button class="btn btn-warning" >Modificar</button>
-                    <button class="btn btn-danger" (click)="deleteOneArticle(item.id)" >Eliminar</button>
-                </div>
+                }
+            }@else {
                 
-            }@empty {
-                <div class="conteiner-news-one__title">
-                    <h2>No hay articulos</h2>
-                </div>
-            }
+                <app-form-modify [idArticle]="idArticle" (formModifyClose)="modifyArticleClose($event)"/>
+                
+
+            }            
             <div class="conteiner-news-one__btn">
-                <button class="btn btn-success" (click)="newArticleOpen()" >Nuevo articulo</button>
+                <button class="btn btn-success" (click)="newArticleOpen()" [disabled]="modifyArticle"  >Nuevo articulo</button>
             </div>
         }
 
@@ -109,7 +116,7 @@
                 <p class="alert alert-error">{{messageArticleError}}</p>
              }
                 <!-- input oculto -->
-                <input type="hidden" name="news_id" formControlName='news_id' >
+                <input type="hidden" id="news_id" name="news_id" formControlName='news_id' >
                 @if (errorsArticle?.news_id?.length>0) {
                     @for (item of errorsArticle?.news_id; track $index) {
                         <p class="alert alert-error">{{item}}</p>
@@ -118,7 +125,7 @@
                 <div class="conteiner-news-one__description">
                     <div class="conteiner-news-one__description--label">
                         <label for="subtitle">Subtitulo</label>
-                        <input name="subtitle" type="text" formControlName="subtitle">
+                        <input id="subtitle" name="subtitle" type="text" formControlName="subtitle">
                         @if (subtitle?.errors?.['required'] && subtitle?.touched) {
                             <p class="alert alert-error">El subtitulo es obligatorio</p>
                         }
@@ -132,7 +139,7 @@
                     </div>
                     <div class="conteiner-news-one__description--label">
                         <label for="entrance">Entrada</label>
-                        <input  name="entrance" type="text" formControlName="entrance">
+                        <input id="entrance" name="entrance" type="text" formControlName="entrance">
                         @if (entrance?.errors?.['required'] && entrance?.touched) {
                             <p class="alert alert-error">La entrada es requerida</p>
                         }
@@ -156,7 +163,7 @@
                     }
                 </div>
                 <div class="conteiner-news-one__description--label">
-                    <input type="file" name="image" formControlName="image" (change)="onFileChange($event)" >
+                    <input type="file" id="image" name="image" formControlName="image" (change)="onFileChange($event)" >
                     @if (errorsArticle?.image?.length>0) {
                         @for (item of errorsArticle?.image; track $index) {
                             <p class="alert alert-error">{{item}}</p>

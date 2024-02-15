@@ -78,6 +78,11 @@
             color: color.$danger-dark;
             border: 1px solid color.$danger-dark;
         }
+        &:disabled{
+            background-color: #a4a3a3;
+            color: #4d4b4b;
+            border: #a4a3a3;
+        }
     }
     &.btn-warning{
         background-color: color.$warning;
@@ -87,6 +92,11 @@
             background-color: color.$warning-light;
             color: color.$warning-dark;
             border: 1px solid color.$warning-dark;
+        }
+        &:disabled{
+            background-color: #a4a3a3;
+            color: #4d4b4b;
+            border: #a4a3a3;
         }
     }
 }

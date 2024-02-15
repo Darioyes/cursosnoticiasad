@@ -1,8 +1,9 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { INews } from '@interfaces/inews';
 import { NewsService } from '@services/news.service';
+import { FormModifyComponent } from '@shared/form-modify/form-modify.component';
 import { LoadingComponent } from '@shared/loading/loading.component';
 import { TitleComponent } from '@shared/title/title.component';
 import { environment } from 'src/environments/environment.development';
@@ -16,6 +17,8 @@ import { environment } from 'src/environments/environment.development';
     //importar pipe para el formato de fecha
     DatePipe,
     ReactiveFormsModule,
+    FormModifyComponent,
+    NgClass,
   ],
   templateUrl: './detail-news.component.html',
   styleUrl: './detail-news.component.scss'
@@ -33,6 +36,9 @@ export class DetailNewsComponent implements OnChanges, OnInit{
   public articleForm:any = new FormGroup({});
   public messageArticleError: string | any = '';
   public errorsArticle: string[] | any = [];
+  public modifyArticle: boolean | any = false;
+  public idArticle: number | any;
+  
 
   @Input( ) newsId: number | any;
   @Input( ) activeGet: boolean | any = false;
@@ -41,6 +47,17 @@ export class DetailNewsComponent implements OnChanges, OnInit{
 //inplemantamos el ngOnInit para inicializar el formulario
   ngOnInit() {
    
+    this.articleFormNew();
+
+    
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.getOneNews(this.activeGet);
+    
+  }
+
+  articleFormNew(){
     
     this.articleForm = this.formbuilder.group({
       news_id: '',
@@ -49,26 +66,28 @@ export class DetailNewsComponent implements OnChanges, OnInit{
       body_news: ['',Validators.compose([Validators.required,Validators.maxLength(10000),Validators.minLength(5)])],
       image: ['']
     });
-  
-   
-      //  this.articleForm.setValue({
-      //   news_id: this.news.data.id ? this.news.data.id: 'no hay id',
-      //   });
-   
-    
   }
-  
-  
-  get news_id() { return this.articleForm.get('news_id'); }
-  get subtitle() { return this.articleForm.get('subtitle'); }
-  get entrance() { return this.articleForm.get('entrance'); }
-  get body_news() { return this.articleForm.get('body_news'); }
-  get image() { return this.articleForm.get('image'); }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.getOneNews(this.activeGet);
-    
+
+  
+  get news_id() {
+    return this.articleForm.get('news_id');
   }
+  
+  get subtitle() { 
+    return this.articleForm.get('subtitle'); 
+  }
+  get entrance() { 
+    return this.articleForm.get('entrance'); 
+  }
+  get body_news() { 
+    return this.articleForm.get('body_news'); 
+  }
+  get image() { 
+    return this.articleForm.get('image'); 
+  }
+
+
   //metodo para solicitar una noticia
   getOneNews(num:number){
     if(num){
@@ -77,7 +96,7 @@ export class DetailNewsComponent implements OnChanges, OnInit{
         next: (response:INews | any) => {
           //console.log(response);
           this.news = response;
-          this.images = UrlImg+response.data.image.replace('public', 'storage');
+          this.images = UrlImg+response?.data.image?.replace('public', 'storage');
           
         },
         error: (error: any) => {
@@ -96,12 +115,15 @@ export class DetailNewsComponent implements OnChanges, OnInit{
   closeModal(){
     this.modalClose.emit(false);
     this.newArticle = false;
-    
     //limpiamos el formulario
     this.articleForm.reset();
+    if(this.modifyArticle){
+      this.modifyArticle = false;
+    }
   }
   
   newArticleOpen(){
+    //this.modifyArticle = false;
     this.newArticle = !this.newArticle;
     this.articleForm.setValue({
       news_id: this.news.data.id ? this.news.data.id  : '',
@@ -109,8 +131,6 @@ export class DetailNewsComponent implements OnChanges, OnInit{
       entrance: '',
       body_news: '',
       image: ''
-
-
     });
 
    
@@ -188,4 +208,13 @@ export class DetailNewsComponent implements OnChanges, OnInit{
     }
   }
 
+  modifyArticleOpen(idArticle:number){
+    this.modifyArticle = true;
+    this.idArticle = idArticle;
+  }
+
+  modifyArticleClose(article:boolean){
+    this.modifyArticle = article;
+  }
+  
 }

@@ -1,0 +1,39 @@
+@if (article?.error === false) {
+    
+    <form [formGroup]="articleModifyForm" class="form-articles" 
+    (submit)="modifyOneArticle(idArticle)" >
+        
+        <input type="hidden" id="news_id" name="news_id" formControlName="news_id">
+        <div class="conteiner-news-one__description">
+            
+            <div class="conteiner-news-one__description--label">
+                <label for="subtitle">Subtitulo</label>
+                    <input type="text" id="subtitle" name="subtitle" formControlName="subtitle" >
+            </div>
+            <div class="conteiner-news-one__description--label">
+                <label for="entrance">Entrada</label>
+                    <input type="text" id="entrance" name="entrance" formControlName="entrance" >
+            </div>
+        </div>
+        <div class="conteiner-news-one__full">
+            <label for="body_news">Contenido</label>
+                <textarea type="text" id="body_news" name="body_news" formControlName="body_news" ></textarea>
+        </div>
+
+            <div class="conteiner-news-one__description--label" for="image">
+                <input type="file" id="image" name="image" formControlName="image" (change)="onFileChange($event)">
+            </div>
+            <div class="conteiner-news-one__image">
+                <!-- <img src="{{UrlImg}}" > -->
+            </div>
+
+        <div class="conteiner-news-one__btn">
+            <button class="btn btn-danger" (click)="modifyFomrClose()" >Cancelar</button>
+            <button class="btn btn-success" type="submit" >Modificar</button>
+        </div>
+    </form>
+}@else{
+    <app-loading />
+}
+    
+
