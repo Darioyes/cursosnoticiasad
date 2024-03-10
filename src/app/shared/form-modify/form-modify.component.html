@@ -1,7 +1,9 @@
 @if (article?.error === false) {
     
-    <form [formGroup]="articleModifyForm" class="form-articles" 
-    (submit)="modifyOneArticle(idArticle)" >
+    <form [formGroup]="articleModifyForm" class="form-articles"  
+    enctype = "multipart/form-data" 
+    (submit)="modifyOneArticle(idArticle)"
+    >
         
         <input type="hidden" id="news_id" name="news_id" formControlName="news_id">
         <div class="conteiner-news-one__description">
@@ -9,27 +11,36 @@
             <div class="conteiner-news-one__description--label">
                 <label for="subtitle">Subtitulo</label>
                     <input type="text" id="subtitle" name="subtitle" formControlName="subtitle" >
+                    @if (subtitle?.errors?.['required'] && subtitle?.touched) {
+                        <p class="alert alert-error">El subtitulo es obligatorio</p>
+                    }
             </div>
             <div class="conteiner-news-one__description--label">
                 <label for="entrance">Entrada</label>
                     <input type="text" id="entrance" name="entrance" formControlName="entrance" >
+                    @if (entrance?.errors?.['required'] && entrance?.touched) {
+                        <p class="alert alert-error">La entrada es requerida</p>
+                    }
             </div>
         </div>
         <div class="conteiner-news-one__full">
             <label for="body_news">Contenido</label>
                 <textarea type="text" id="body_news" name="body_news" formControlName="body_news" ></textarea>
+                @if (body_news?.errors?.['required'] && body_news?.touched) {
+                    <p class="alert alert-error">El contenido es requerido</p>
+                }
         </div>
 
             <div class="conteiner-news-one__description--label" for="image">
-                <input type="file" id="image" name="image" formControlName="image" (change)="onFileChange($event)">
+                <input type="file" id="image" name="image" formControlName="image" (change)="onFileChangeForm($event)">
             </div>
             <div class="conteiner-news-one__image">
                 <!-- <img src="{{UrlImg}}" > -->
             </div>
 
         <div class="conteiner-news-one__btn">
+            <button name="modify-article" class="btn btn-success" type="submit" [disabled]="articleModifyForm.invalid" >Modificar</button>
             <button class="btn btn-danger" (click)="modifyFomrClose()" >Cancelar</button>
-            <button class="btn btn-success" type="submit" >Modificar</button>
         </div>
     </form>
 }@else{

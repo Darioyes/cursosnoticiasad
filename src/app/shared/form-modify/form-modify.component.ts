@@ -26,13 +26,18 @@ export class FormModifyComponent implements OnInit, OnChanges{
   public articleModifyForm:any = new FormGroup({});
   public article: INews[] | any;
   public modifyArticle: boolean | any = false;
+  
 
   @Input() idArticle: number | any;
   @Output() formModifyClose: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  constructor() { 
+
+    this.articleFormModify()
+  }
   
   ngOnInit() {
-
-  
+    
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -57,32 +62,45 @@ export class FormModifyComponent implements OnInit, OnChanges{
   get image() { return this.articleModifyForm.get('image'); }
 
   modifyOneArticle(id:number){
+    
     if(this.articleModifyForm.valid){
-      const formData = new FormData();
-      formData.append('news_id', this.articleModifyForm.get('news_id')?.value);
-      formData.append('subtitle', this.articleModifyForm.get('subtitle')?.value);
-      formData.append('entrance', this.articleModifyForm.get('entrance')?.value);
-      formData.append('body_news', this.articleModifyForm.get('body_news')?.value);
-      formData.append('image', this.articleModifyForm.get('image')?.value);
-      console.log(formData);
-      this.newService.modifyArticle(formData,id).subscribe({
-        next: (response: any) => {
-          console.log(response);
-          //this.getOneNews(this.activeGet);
-          this.articleModifyForm.reset();
-          if(response.error === false){
-            this.modifyArticle = false;
-            alert(response.message);
+
+      
+
+      const data = new FormData();
+      data.append('news_id', this.articleModifyForm.get('news_id')?.value);
+      data.append('subtitle', this.articleModifyForm.get('subtitle')?.value);
+      data.append('entrance', this.articleModifyForm.get('entrance')?.value);
+      data.append('body_news', this.articleModifyForm.get('body_news')?.value);
+      data.append('image', this.articleModifyForm.get('image')?.value);
+      //console.log(data);
+      //console.log(this.articleModifyForm.value);
+
+      const confirmModify = confirm(`¿Estas seguro de modificar este articulo?`);
+
+      if(confirmModify){
+        this.newService.modifyArticle(data,id).subscribe({
+          
+          next: (response: any) => {
+            console.log(response);
+            //this.articleModifyForm.reset();
+            if(response.error === false){
+              this.modifyArticle = false;
+              alert(response.message);
+              this.modifyFomrClose();
+            }
+          },
+          error: (error: any) => {
+            console.log(error);
+            //this.errorsArticle = error.errors;
+          },
+          complete: () => {
+            console.log('complete');
           }
-        },
-        error: (error: any) => {
-          console.log(error);
-          //this.errorsArticle = error.errors;
-        },
-        complete: () => {
-          console.log('complete');
-        }
-      });
+        });
+
+      };
+
      
      
     }else{
@@ -135,7 +153,7 @@ export class FormModifyComponent implements OnInit, OnChanges{
     this.articleModifyForm.reset();
     this.formModifyClose.emit(this.modifyArticle);
   }
-  onFileChange(event: any) {
+  onFileChangeForm(event: any) {
     const file = event.target.files[0];
     this.articleModifyForm.patchValue({
       image: file

@@ -45,7 +45,7 @@ export class NewsPageComponent {
         this.errorNews = error.message.message;
       },
       complete: () => {
-        console.log('fetch complete');
+        console.log('complete');
       }
     });
   }
@@ -72,6 +72,8 @@ export class NewsPageComponent {
     this.activeGet = true;
     //abrira el <dialog> que tiene el app-detail-news y mostrara la noticia
     this.openModal = true;
+
+    this.newsServices.setModalActive(true);
 
   }
   //recibimos el valor del output del app-detail-news

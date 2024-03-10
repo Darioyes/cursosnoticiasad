@@ -16,7 +16,7 @@ import { NavBarComponent } from '@shared/nav-bar/nav-bar.component';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnChanges, OnInit {
-  public modal: boolean | any = false;
+  public modal: boolean = false;
   public newsService = inject(NewsService);
 
   constructor() {
@@ -25,21 +25,18 @@ export class DashboardComponent implements OnChanges, OnInit {
 
    //implementamos el ngOinit
    ngOnInit(): void {
-    
+    this.modalActive()
   }
 
 
   //implementamos el ngOnchanges
   ngOnChanges(changes: any): void {
-   this.modalActive()
-
     
   }
 
-  modalActive(){
-    this.newsService.getModalActive().subscribe((response: any) => {
-      this.modal = response;
-      console.log(this.modal);
+  modalActive():boolean | any{
+    this.newsService.getModalActive().subscribe((modalState: boolean) => {
+      this.modal = modalState;
     });
   }
 

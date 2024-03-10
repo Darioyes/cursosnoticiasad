@@ -111,7 +111,7 @@
         @if (newArticle) {
             <form [formGroup]="articleForm" (submit)="newArticleSend()"
              class="conteiner-news-one__form"  
-             enctype="multipart/form-data">
+             enctype ="multipart/form-data">
              @if (articleForm.valid) {
                 <p class="alert alert-error">{{messageArticleError}}</p>
              }
@@ -193,8 +193,8 @@
                 </div>
 
                 <div class="conteiner-news-one__btn">
-                    <button class="btn btn-warning" >Modificar</button>
-                    <button class="btn btn-danger" >Eliminar</button>
+                    <button class="btn btn-warning" [disabled]="modifyArticle" >Modificar</button>
+                    <button class="btn btn-danger" [disabled]="modifyArticle" >Eliminar</button>
                 </div>
             }
         }

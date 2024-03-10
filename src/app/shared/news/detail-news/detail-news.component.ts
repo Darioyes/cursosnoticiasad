@@ -104,7 +104,7 @@ export class DetailNewsComponent implements OnChanges, OnInit{
           
         },
         complete: () => {
-          console.log('complete otro');
+          console.log('complete');
           
         }
       });
@@ -115,6 +115,7 @@ export class DetailNewsComponent implements OnChanges, OnInit{
   closeModal(){
     this.modalClose.emit(false);
     this.newArticle = false;
+    this.newService.setModalActive(false);
     //limpiamos el formulario
     this.articleForm.reset();
     if(this.modifyArticle){
@@ -149,6 +150,7 @@ export class DetailNewsComponent implements OnChanges, OnInit{
       formData.append('entrance', this.articleForm.get('entrance')?.value);
       formData.append('body_news', this.articleForm.get('body_news')?.value);
       formData.append('image', this.articleForm.get('image')?.value);
+      console.log(formData);
       
       //console.log(this.articleForm.value);
       this.newService.createArticle(formData).subscribe({

@@ -1,10 +1,10 @@
-<div class="conteiner-header">
-    <header class="conteiner-header__nav" >
+<div class="conteiner-header" >
+    <header class="conteiner-header__nav" [ngClass]=" modal === true ? 'modal-active':'' " >
         <nav>
             <app-nav-bar />
         </nav>
     </header>
-    <main class="conteiner-header__main" [ngClass]=" modal === true ? 'modal-acive':'' ">
+    <main class="conteiner-header__main " >
         <router-outlet />
     </main>
 

@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { INews } from '@interfaces/inews';
-import { catchError, throwError } from 'rxjs';
+import { Observable, Subject, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
@@ -13,7 +13,8 @@ export class NewsService {
 
   private http = inject(HttpClient);
   public baseurl = environment.apiUrlBase+'api/'
-  public modal: boolean | any;
+  private modalSubject: Subject<boolean> = new Subject<boolean>();
+  
 
 
   sendError(error: HttpErrorResponse) {
@@ -31,12 +32,11 @@ export class NewsService {
     return throwError(() =>  ({ message: errorMessage, errors: error.error.errors, errorNews: errorNews}));
   }
 
-  getnews(id?:any){
+  getnews(id?:any):INews | any{
      let url = '';
 
     if(id){
       url = this.baseurl+'news/'+id;
-      this.modal = true;
 
     }else{
       url = this.baseurl+'news';
@@ -55,14 +55,18 @@ export class NewsService {
       'Accept': 'application/json',
       //'Content-Type': 'application/json',
     });
-    return this.http.get<any>(url,{ headers: headers }).pipe(
+    return this.http.get<INews>(url,{ headers: headers }).pipe(
       catchError(this.sendError)
       );
   }
 
+  //servicio que setea el modal
+  setModalActive(value: boolean): void {
+    this.modalSubject.next(value);
+  }
 
-  getModalActive(){
-    return this.modal;
+  getModalActive(): Observable<boolean> {
+    return this.modalSubject.asObservable();
   }
 
 
@@ -70,6 +74,8 @@ export class NewsService {
 
   createArticle(data:any){
     const url = this.baseurl+'articles';
+    console.log('datos a enviar nuevos')
+    console.log(data);
     const headers = new HttpHeaders({
       //enviar encabezados para arhivos y texto
       'Accept': 'application/json',
@@ -83,13 +89,15 @@ export class NewsService {
   }
 
   modifyArticle(data:any,id:number){
-    const url = this.baseurl+'articles/'+id;
+    const url = this.baseurl+'articles2/'+id;
+    console.log('datos a modificar')
+    console.log(data);
     const headers = new HttpHeaders({
       //enviar encabezados para arhivos y texto
       'Accept': 'application/json',
       //'Content-Type': 'multipart/form-data',
     });
-    return this.http.put<any>(url,data,{ headers: headers }).pipe(
+    return this.http.post<any>(url,data,{ headers: headers }).pipe(
       catchError(this.sendError)
       );
   }
