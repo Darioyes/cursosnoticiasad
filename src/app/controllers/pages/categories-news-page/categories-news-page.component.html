@@ -1,1 +1,65 @@
-<p>categories-news-page works!</p>
+<section class="conteiner-categories">
+    <app-title [title]="responseCategories?.message"></app-title>
+    <div class="conteiner-categories__table">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Slug
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (responseCategories?.error === false) {
+                    @for (category of categories; track categories.id) {
+                        <tr >
+                            <td>
+                                {{category.name}}
+                            </td>
+                            <td>
+                                {{category.slug}}
+                            </td>
+                            <td>
+                                <button class="btn btn-warning" >M</button>
+                                <button class="btn btn-danger" (click)="categoryDelete(category.id)" >B</button>
+                            </td>
+                        </tr>
+                    }@empty {
+                        <tr>
+                            <td colspan="3">
+                                <p>No hay noticias</p>
+                            </td>
+                        </tr>
+                    }
+                }@else {
+                    <tr>
+                        <td colspan="3">
+                            Error al buscar la información
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <div class="conteiner-categories__pagination">
+        <div class="container-pagination__links">
+            <a>anterior</a>
+            <a>1</a>
+            <a>siguiente</a>
+        </div>
+        <div class="container-pagination__page">
+            <p>5/6</p>
+        </div>
+    </div>
+    <div class="conteiner-categories__button">
+        <button class="btn btn-success">Crear</button>
+    </div>
+</section>

@@ -38,6 +38,7 @@ export class DetailNewsComponent implements OnChanges, OnInit{
   public errorsArticle: string[] | any = [];
   public modifyArticle: boolean | any = false;
   public idArticle: number | any;
+  public errorNews: any;
   
 
   @Input( ) newsId: number | any;
@@ -101,6 +102,7 @@ export class DetailNewsComponent implements OnChanges, OnInit{
         },
         error: (error: any) => {
           console.log(error);
+          this.errorNews = error.message.message;
           
         },
         complete: () => {

@@ -26,6 +26,7 @@ export class FormModifyComponent implements OnInit, OnChanges{
   public articleModifyForm:any = new FormGroup({});
   public article: INews[] | any;
   public modifyArticle: boolean | any = false;
+  public messageArticleError: string | any = '';
   
 
   @Input() idArticle: number | any;
@@ -104,7 +105,7 @@ export class FormModifyComponent implements OnInit, OnChanges{
      
      
     }else{
-      //this.messageArticleError = 'Todos los campos son obligatorios';
+      this.messageArticleError = 'Todos los campos son obligatorios';
     }
 
   }
