@@ -47,11 +47,30 @@ export class CategoriesNewsService {
       );
   }
 
+  createCategoryNews(category:ICategorynew){
+    const url = this.baseurl+'categories_news';
+    const headers = {
+      'Accept': 'application/json'
+    };
+    return this.http.post(url,category,{ headers: headers }).pipe(
+      catchError(this.sendError)
+    );
+  };
+
+  updateCategoryNews(category:ICategorynew,categoryId:number){
+    const url = this.baseurl+'categories_news/'+categoryId;
+    const headers = {
+      'Accept': 'application/json'
+    };
+    return this.http.put(url,category,{ headers: headers }).pipe(
+      catchError(this.sendError)
+    );
+  }
+
   deleteCategoryNews(categoryId:number){
     const url = this.baseurl+'categories_news/'+categoryId;
     const headers = {
-      'Accept': 'application/json',
-      //'Content-Type': 'application/json',
+      'Accept': 'application/json'
     };
     return this.http.delete(url,{ headers: headers }).pipe(
       catchError(this.sendError)

@@ -27,24 +27,24 @@ export class FormModifyComponent implements OnInit, OnChanges{
   public article: INews[] | any;
   public modifyArticle: boolean | any = false;
   public messageArticleError: string | any = '';
-  
+
 
   @Input() idArticle: number | any;
   @Output() formModifyClose: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor() { 
+  constructor() {
 
     this.articleFormModify()
   }
-  
+
   ngOnInit() {
-    
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    
+
     this.modifyArticleOpen(this.idArticle);
-    
+
   }
 
   articleFormModify(){
@@ -63,10 +63,8 @@ export class FormModifyComponent implements OnInit, OnChanges{
   get image() { return this.articleModifyForm.get('image'); }
 
   modifyOneArticle(id:number){
-    
-    if(this.articleModifyForm.valid){
 
-      
+    if(this.articleModifyForm.valid){
 
       const data = new FormData();
       data.append('news_id', this.articleModifyForm.get('news_id')?.value);
@@ -81,7 +79,7 @@ export class FormModifyComponent implements OnInit, OnChanges{
 
       if(confirmModify){
         this.newService.modifyArticle(data,id).subscribe({
-          
+
           next: (response: any) => {
             console.log(response);
             //this.articleModifyForm.reset();
@@ -102,8 +100,8 @@ export class FormModifyComponent implements OnInit, OnChanges{
 
       };
 
-     
-     
+
+
     }else{
       this.messageArticleError = 'Todos los campos son obligatorios';
     }
@@ -136,7 +134,7 @@ export class FormModifyComponent implements OnInit, OnChanges{
       //hacer retrasarla carga del formulario porque se carga antes que el articulo
       setTimeout(() => {
         this.articleModifyForm.setValue({
-  
+
           news_id: this.article?.data?.news_id ? this.article?.data?.news_id: '',
           subtitle: this.article?.data?.subtitle ? this.article?.data?.subtitle :'',
           entrance: this.article?.data?.entrance ? this.article?.data?.entrance : '',
@@ -146,7 +144,7 @@ export class FormModifyComponent implements OnInit, OnChanges{
       }, 500);
 
     }
-    
+
   }
 
   modifyFomrClose(){

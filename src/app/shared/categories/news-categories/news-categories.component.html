@@ -1,0 +1,32 @@
+<div class="conteiner-categories">
+  @if(changeCategoryNews){
+    <h2>Nueva Categoría</h2>
+  }@else{
+    <h2>Editar Categoría</h2>
+  }
+  <form [formGroup]="categoriesNewsForm" class="conteiner-categories__form" >
+      <div class="conteiner-categories__form--labels">
+        <label for="name" >Nombre categoria</label>
+        <input type="text" id="name" name="name" formControlName="name" />
+        @if (name?.errors?.['required'] && name?.touched) {
+          <p class="alert alert-error">La categoría es obligatorio</p>
+        }
+        @if (name?.errors?.['minlength'] && name?.touched) {
+          <p class="alert alert-error">La categoría debe tener al menos 3 caracteres</p>
+        }
+        @if (name?.errors?.['maxlength'] && name?.touched) {
+          <p class="alert alert-error">La categoría debe tener menos de 100 caracteres</p>
+        }
+      </div>
+      <div class="conteiner-categories__form--button">
+        @if(changeCategoryNews){
+          <button type="submit" class="btn btn-success" (click)="createCategoryNews()" >Guardar</button>
+        }@else{
+          <button type="submit" class="btn btn-warning" (click)="createCategoryNews()">Actualizar</button>
+        }
+        <button class="btn btn-danger" (click)="closeModal()" >Cancelar</button>
+      </div>
+  </form>
+
+</div>
+

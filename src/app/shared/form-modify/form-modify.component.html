@@ -1,13 +1,13 @@
 @if (article?.error === false) {
-    
-    <form [formGroup]="articleModifyForm" class="form-articles"  
-    enctype = "multipart/form-data" 
+
+    <form [formGroup]="articleModifyForm" class="form-articles"
+    enctype = "multipart/form-data"
     (submit)="modifyOneArticle(idArticle)"
     >
-        
+
         <input type="hidden" id="news_id" name="news_id" formControlName="news_id">
         <div class="conteiner-news-one__description">
-            
+
             <div class="conteiner-news-one__description--label">
                 <label for="subtitle">Subtitulo</label>
                     <input type="text" id="subtitle" name="subtitle" formControlName="subtitle" >
@@ -46,5 +46,5 @@
 }@else{
     <app-loading />
 }
-    
+
 

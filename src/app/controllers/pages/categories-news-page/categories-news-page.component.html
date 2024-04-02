@@ -1,4 +1,19 @@
 <section class="conteiner-categories">
+  @if(!categories){
+    <app-title title="Buscando Categorias"></app-title>
+  }
+  @defer (when categoriesError === false){
+
+    @if(modalopencategory){
+      <dialog [open] = "openModal" class="conteiner-categories__dialog">
+        <app-news-categories
+        [changeCategoryNews]="changeCategoryNews"
+        [nameCategory]="nameCategory"
+        [idCategory]="idCategory"
+        (modalClose) = "closeModal($event)"/>
+      </dialog>
+    }
+
     <app-title [title]="responseCategories?.message"></app-title>
     <div class="conteiner-categories__table">
         <table>
@@ -27,7 +42,8 @@
                                 {{category.slug}}
                             </td>
                             <td>
-                                <button class="btn btn-warning" >M</button>
+                                <button class="btn btn-warning"
+                                (click)="createCategoryNews(false,category.name,category.id)" >M</button>
                                 <button class="btn btn-danger" (click)="categoryDelete(category.id)" >B</button>
                             </td>
                         </tr>
@@ -41,7 +57,7 @@
                 }@else {
                     <tr>
                         <td colspan="3">
-                            Error al buscar la información
+                            <p>Error en la petición</p>
                         </td>
                     </tr>
                 }
@@ -60,6 +76,17 @@
         </div>
     </div>
     <div class="conteiner-categories__button">
-        <button class="btn btn-success">Crear</button>
+        <button class="btn"
+        (click)="createCategoryNews(true)"
+        >Crear</button>
     </div>
+  }@placeholder {
+    @if (errorCategoriesNews) {
+
+      <p class="alert alert-error">Error en la petición</p>
+  }@else {
+
+      <app-loading class="table-loading" />
+  }
+  }
 </section>

@@ -4,13 +4,13 @@
     }
     @defer ( when news?.error === false  ) {
         <dialog [open] = "openModal" class="conteiner-news__dialog">
-            <app-detail-news 
-            [newsId] = "newsId" 
+            <app-detail-news
+            [newsId] = "newsId"
             [activeGet] = 'activeGet'
-            (modalClose) = "closeModal($event)"  />
+            (modalClose) = "closeModal($event)"/>
         </dialog>
-        
-        
+
+
         <div class="conteiner-news__title">
             @if (news?.error === false) {
                 <app-title [title]="news?.message"></app-title>
@@ -37,7 +37,7 @@
                 <tbody>
                     @if(news?.error === false){
                         @for (item of news.data.data; track news.data.data.id) {
-            
+
                             <tr (click)="getId(item.id)">
                                 <td >
                                     {{item.title}}
@@ -58,7 +58,7 @@
                                     }@else {
                                         No
                                     }
-                                    
+
                                 </td>
                             </tr>
                         }@empty {
@@ -85,7 +85,7 @@
                         }@else if (item.label ==='Siguiente &raquo;' ) {
                             <a  (click)="pagination(news.data.next_page_url)">Siguiente</a>
                         }@else{
-                            <a  
+                            <a
                             (click)="pagination(item.url)"
                             [ngClass]="{'active-page': item.active}"
                             >{{item.label}}</a>
@@ -99,11 +99,11 @@
                     <button class="btn btn-success" >Nueva noticia</button>
                 </div>
         </div>
-        
-        
+
+
     }@placeholder {
         @if (errorNews) {
-            
+
             <p class="alert alert-error">Error en la petición</p>
         }@else {
 
