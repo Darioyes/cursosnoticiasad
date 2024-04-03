@@ -33,7 +33,7 @@
             </thead>
             <tbody>
                 @if (responseCategories?.error === false) {
-                    @for (category of categories; track categories.id) {
+                    @for (category of responseCategories?.data.data; track categories.id) {
                         <tr >
                             <td>
                                 {{category.name}}
@@ -67,12 +67,21 @@
     </div>
     <div class="conteiner-categories__pagination">
         <div class="container-pagination__links">
-            <a>anterior</a>
-            <a>1</a>
-            <a>siguiente</a>
+          @for (item of responseCategories?.data?.links;  track $index) {
+            @if (item.label === '&laquo; Anterior') {
+                <a  (click)="pagination(responseCategories.data.prev_page_url)">Anterior</a>
+            }@else if (item.label ==='Siguiente &raquo;' ) {
+                <a  (click)="pagination(responseCategories.data.next_page_url)">Siguiente</a>
+            }@else{
+                <a
+                (click)="pagination(item.url)"
+                [ngClass]="{'active-page': item.active}"
+                >{{item.label}}</a>
+            }
+        }
         </div>
         <div class="container-pagination__page">
-            <p>5/6</p>
+            <p>{{responseCategories?.data?.to}} / {{responseCategories?.data?.total}}</p>
         </div>
     </div>
     <div class="conteiner-categories__button">

@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment.development';
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriesNewsService {
+export class CategoriesCoursesService {
 
   constructor() { }
 
@@ -34,10 +34,10 @@ export class CategoriesNewsService {
     let url = '';
 
     if(id){
-      url = this.baseurl+'categories_news/'+id;
+      url = this.baseurl+'categories_courses/'+id;
 
     }else{
-      url = this.baseurl+'categories_news';
+      url = this.baseurl+'categories_courses';
     };
     const headers = {
       'Accept': 'application/json',
@@ -48,7 +48,7 @@ export class CategoriesNewsService {
   }
 
   createCategoryNews(category:ICategorynew){
-    const url = this.baseurl+'categories_news';
+    const url = this.baseurl+'categories_courses';
     const headers = {
       'Accept': 'application/json'
     };
@@ -58,7 +58,7 @@ export class CategoriesNewsService {
   };
 
   updateCategoryNews(category:ICategorynew,categoryId:number){
-    const url = this.baseurl+'categories_news/'+categoryId;
+    const url = this.baseurl+'categories_courses/'+categoryId;
     const headers = {
       'Accept': 'application/json'
     };
@@ -68,7 +68,7 @@ export class CategoriesNewsService {
   }
 
   deleteCategoryNews(categoryId:number){
-    const url = this.baseurl+'categories_news/'+categoryId;
+    const url = this.baseurl+'categories_courses/'+categoryId;
     const headers = {
       'Accept': 'application/json'
     };

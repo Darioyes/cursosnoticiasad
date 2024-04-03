@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { Component, OnInit, Output, inject } from '@angular/core';
 import { ICategorynew } from '@interfaces/inews';
 import { CategoriesNewsService } from '@services/categories-news.service';
@@ -12,7 +13,8 @@ import { NewsService } from './../../../services/news.service';
   imports: [
     TitleComponent,
     LoadingComponent,
-    NewsCategoriesComponent
+    NewsCategoriesComponent,
+    NgClass
   ],
   templateUrl: './categories-news-page.component.html',
   styleUrl: './categories-news-page.component.scss'
@@ -28,6 +30,7 @@ export class CategoriesNewsPageComponent implements OnInit{
   public modalopencategory: boolean = false;
   public nameCategory: string | any;
   public idCategory: number | any;
+  public categoriesPag:[] | any;
 
   public changeCategoryNews: boolean = false;
   public changeCategoryCourses: boolean = false;
@@ -37,6 +40,7 @@ export class CategoriesNewsPageComponent implements OnInit{
 
   ngOnInit(): void {
     this.getAllCategoriesNews();
+
   }
 
   // ngOnChanges(){
@@ -49,7 +53,7 @@ export class CategoriesNewsPageComponent implements OnInit{
         this.responseCategories = response;
         this.categories = response.data.data;
         this.categoriesError = response.error;
-
+        //console.log(this.responseCategories);
       },
       error: (error: any) => {
         console.log(error);
@@ -96,6 +100,22 @@ export class CategoriesNewsPageComponent implements OnInit{
     this.getAllCategoriesNews();
     this.changeCategoryNews = !this.changeCategoryNews;
 
+  }
+
+  pagination(pag:any){
+    this.categoriesNewsServices.getPagination(pag).subscribe({
+      next: (response: any) => {
+        //console.log(response);
+        this.responseCategories = response;
+        //console.log(response);
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+        console.log('complete');
+      }
+    });
   }
 
 }

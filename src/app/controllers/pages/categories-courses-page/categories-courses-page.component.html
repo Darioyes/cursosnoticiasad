@@ -1,1 +1,102 @@
-<p>categories-courses-page works!</p>
+<section class="conteiner-categories">
+  @if(!categories){
+    <app-title title="Buscando Categorias"></app-title>
+  }
+  @defer (when categoriesError === false){
+
+    @if(modalopencategory){
+      <dialog [open] = "openModal" class="conteiner-categories__dialog">
+        <app-courses-categories
+        [changeCategoryNews]="changeCategoryNews"
+        [nameCategory]="nameCategory"
+        [idCategory]="idCategory"
+        (modalClose) = "closeModal($event)"/>
+      </dialog>
+    }
+
+    <app-title [title]="responseCategories?.message"></app-title>
+    <div class="conteiner-categories__table">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Slug
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (responseCategories?.error === false) {
+                    @for (category of responseCategories?.data.data; track categories.id) {
+                        <tr >
+                            <td>
+                                {{category.name}}
+                            </td>
+                            <td>
+                                {{category.slug}}
+                            </td>
+                            <td>
+                                <button class="btn btn-warning"
+                                (click)="createCategoryNews(false,category.name,category.id)" >M</button>
+                                <button class="btn btn-danger" (click)="categoryDelete(category.id)" >B</button>
+                            </td>
+                        </tr>
+                    }@empty {
+                        <tr>
+                            <td colspan="3">
+                                <p>No hay noticias</p>
+                            </td>
+                        </tr>
+                    }
+                }@else {
+                    <tr>
+                        <td colspan="3">
+                            <p>Error en la petición</p>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <div class="conteiner-categories__pagination">
+        <div class="container-pagination__links">
+          @for (item of responseCategories?.data?.links;  track $index) {
+            @if (item.label === '&laquo; Anterior') {
+                <a  (click)="pagination(responseCategories.data.prev_page_url)">Anterior</a>
+            }@else if (item.label ==='Siguiente &raquo;' ) {
+                <a  (click)="pagination(responseCategories.data.next_page_url)">Siguiente</a>
+            }@else{
+                <a
+                (click)="pagination(item.url)"
+                [ngClass]="{'active-page': item.active}"
+                >{{item.label}}</a>
+            }
+        }
+        </div>
+        <div class="container-pagination__page">
+            <p>{{responseCategories?.data?.to}} / {{responseCategories?.data?.total}}</p>
+        </div>
+    </div>
+    <div class="conteiner-categories__button">
+        <button class="btn"
+        (click)="createCategoryNews(true)"
+        >Crear</button>
+    </div>
+  }@placeholder {
+    @if (errorCategoriesNews) {
+
+      <p class="alert alert-error">Error en la petición</p>
+  }@else {
+
+      <app-loading class="table-loading" />
+  }
+  }
+</section>
+
