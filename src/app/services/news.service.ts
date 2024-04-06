@@ -14,13 +14,13 @@ export class NewsService {
   private http = inject(HttpClient);
   public baseurl = environment.apiUrlBase+'api/'
   private modalSubject: Subject<boolean> = new Subject<boolean>();
-  
+
 
 
   sendError(error: HttpErrorResponse) {
     let errorMessage = 'Algo ha ocurrido mal, por favor intentalo de nuevo';
     let errorNews ='true';
-  
+
     if (error.status === 400 && error.error && error.error.errors) {
       errorMessage = error.error.message;
       errorNews = error.error.errorNews;
@@ -28,9 +28,21 @@ export class NewsService {
       errorMessage = error.error;
       errorNews = error.error;
     }
-  
+
     return throwError(() =>  ({ message: errorMessage, errors: error.error.errors, errorNews: errorNews}));
   }
+
+    //servicio que setea el modal
+    setModalActive(value: boolean): void {
+      this.modalSubject.next(value);
+    }
+
+    getModalActive(): Observable<boolean> {
+      return this.modalSubject.asObservable();
+    }
+
+
+  //------News----------
 
   getnews(id?:any):INews | any{
      let url = '';
@@ -45,10 +57,25 @@ export class NewsService {
       'Accept': 'application/json',
       //'Content-Type': 'application/json',
     });
-    return this.http.get<INews>(url,{ headers: headers }).pipe(
+    return this.http.get<INews | any>(url,{ headers: headers }).pipe(
       catchError(this.sendError)
       );
   }
+
+  newsNew(data:any){
+    const url = this.baseurl+'news';
+    console.log('datos a enviar nuevos')
+    console.log(data);
+    const headers = new HttpHeaders({
+      //enviar encabezados para arhivos y texto
+      'Accept': 'application/json',
+      //'Content-Type': 'multipart/form-data',
+    });
+    return this.http.post<any>(url,data,{ headers: headers }).pipe(
+      catchError(this.sendError)
+      );
+  }
+
   getPagination(page:any){
     const url = page;
     const headers = new HttpHeaders({
@@ -60,14 +87,7 @@ export class NewsService {
       );
   }
 
-  //servicio que setea el modal
-  setModalActive(value: boolean): void {
-    this.modalSubject.next(value);
-  }
 
-  getModalActive(): Observable<boolean> {
-    return this.modalSubject.asObservable();
-  }
 
 
   //------Article----------
@@ -81,7 +101,7 @@ export class NewsService {
       'Accept': 'application/json',
       //'Content-Type': 'multipart/form-data',
 
-      
+
     });
     return this.http.post<any>(url,data,{ headers: headers }).pipe(
       catchError(this.sendError)

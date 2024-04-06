@@ -29,13 +29,13 @@ export const routes: Routes = [
                 .then(c => c.NewsPageComponent),
                 canActivate: [authGuard],
             },
-            {
-                path:'articles',
-                title: 'Articulos',
-                loadComponent: () => import('./controllers/pages/articles-page/articles-page.component')
-                .then(c => c.ArticlesPageComponent),
-                canActivate: [authGuard],
-            },
+            // {
+            //     path:'articles',
+            //     title: 'Articulos',
+            //     loadComponent: () => import('./controllers/pages/articles-page/articles-page.component')
+            //     .then(c => c.ArticlesPageComponent),
+            //     canActivate: [authGuard],
+            // },
             {
                 path: 'users',
                 title: 'Usuarios',
@@ -43,13 +43,13 @@ export const routes: Routes = [
                 .then(c => c.UserPageComponent),
                 canActivate: [authGuard],
             },
-            {
-                path:'comments',
-                title: 'Comentarios',
-                loadComponent: () => import('./controllers/pages/comments-page/comments-page.component')
-                .then(c => c.CommentsPageComponent),
-                canActivate: [authGuard],
-            },
+            // {
+            //     path:'comments',
+            //     title: 'Comentarios',
+            //     loadComponent: () => import('./controllers/pages/comments-page/comments-page.component')
+            //     .then(c => c.CommentsPageComponent),
+            //     canActivate: [authGuard],
+            // },
             {
                 path:'categoriesnews',
                 title: 'Categorias de Noticias',

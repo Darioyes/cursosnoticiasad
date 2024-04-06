@@ -1,0 +1,82 @@
+@defer ( when existCategories === false ) {
+
+  <section class="conteiner-news-one">
+    <div class="conteiner-news-one__close">
+      <a >
+          <i class="fa-solid fa-x" (click)="closeModal()"></i>
+      </a>
+    </div>
+    <div class="conteiner-news-one__title">
+      <app-title title="Crear nueva noticia"></app-title>
+    </div>
+
+   <form [formGroup]="newsForm" enctype = "multipart/form-data">
+
+     <div class="conteiner-news-one__description">
+        <div class="conteiner-news-one__description--label">
+            <label for="title">Título</label>
+            <textarea name="title" id="title" formControlName="title"></textarea>
+        </div>
+        <div class="conteiner-news-one__description--label">
+            <label for="epigraph">Epígrafe</label>
+            <textarea name="epigraph" id="epigraph" formControlName="epigraph" ></textarea>
+        </div>
+        <div class="conteiner-news-one__description--label">
+            <label for="content">Contenido</label>
+            <select name="content" id="content" formControlName="content">
+              <option value="news">Noticia</option>
+              <option value="course">Curso</option>
+            </select>
+        </div>
+        <div class="conteiner-news-one__description--label">
+            <label for="visible">visible</label>
+            <select name="visible" id="visible" formControlName="visible">
+              <option value="1">Si</option>
+              <option value="0">No</option>
+            </select>
+        </div>
+        <div class="conteiner-news-one__description--label">
+            <label for="featured">Principal</label>
+            <select name="featured" id="featured" formControlName="featured">
+              <option value="1">Si</option>
+              <option value="0">No</option>
+            </select>
+
+        </div>
+        <div class="conteiner-news-one__description--label">
+            <label for="category_news_id">Categoría noticia</label>
+            <select name="category_news_id" id="category_news_id" formControlName="category_news_id">
+              <option value="">No Aplica</option>
+              @for (category of categoriesNews; track categoriesNews.id) {
+                <option [value]="category.id">{{category.name}}</option>
+              }
+
+            </select>
+        </div>
+        <div class="conteiner-news-one__description--label">
+          <label for="category_course_id" >Categoría cursos</label>
+          <select name="category_course_id" id="category_course_id" formControlName="category_course_id">
+            <option value="">No Aplica</option>
+            @for (categoryCourse of categoriesCourse; track categoriesCourse.id) {
+              <option [value]="categoryCourse.id">{{categoryCourse.name}}</option>
+            }
+          </select>
+        </div>
+
+     </div>
+     <div class="conteiner-news-one__image">
+      <label for="image">Imagen principal</label>
+       <input type="file" name="image" formControlName="image" (change)="onFileChangeForm($event)">
+     </div>
+
+     <div class="conteiner-news-one__btn">
+       <button class="btn btn-success" (click)="postNews()"  >Guradar</button>
+       <button class="btn btn-danger" (click)="closeModal()"  >Cancelar</button>
+     </div>
+   </form>
+
+  </section>
+}@placeholder {
+      <app-loading class="table-loading" />
+    <!-- <app-loading class="table-loading" /> -->
+}

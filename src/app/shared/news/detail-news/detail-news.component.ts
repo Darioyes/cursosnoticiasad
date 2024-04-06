@@ -39,7 +39,7 @@ export class DetailNewsComponent implements OnChanges, OnInit{
   public modifyArticle: boolean | any = false;
   public idArticle: number | any;
   public errorNews: any;
-  
+
 
   @Input( ) newsId: number | any;
   @Input( ) activeGet: boolean | any = false;
@@ -47,19 +47,19 @@ export class DetailNewsComponent implements OnChanges, OnInit{
 
 //inplemantamos el ngOnInit para inicializar el formulario
   ngOnInit() {
-   
+
     this.articleFormNew();
 
-    
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.getOneNews(this.activeGet);
-    
+
   }
 
   articleFormNew(){
-    
+
     this.articleForm = this.formbuilder.group({
       news_id: '',
       subtitle: ['',Validators.compose([Validators.required,Validators.maxLength(255),Validators.minLength(5)])],
@@ -70,22 +70,22 @@ export class DetailNewsComponent implements OnChanges, OnInit{
   }
 
 
-  
+
   get news_id() {
     return this.articleForm.get('news_id');
   }
-  
-  get subtitle() { 
-    return this.articleForm.get('subtitle'); 
+
+  get subtitle() {
+    return this.articleForm.get('subtitle');
   }
-  get entrance() { 
-    return this.articleForm.get('entrance'); 
+  get entrance() {
+    return this.articleForm.get('entrance');
   }
-  get body_news() { 
-    return this.articleForm.get('body_news'); 
+  get body_news() {
+    return this.articleForm.get('body_news');
   }
-  get image() { 
-    return this.articleForm.get('image'); 
+  get image() {
+    return this.articleForm.get('image');
   }
 
 
@@ -98,16 +98,16 @@ export class DetailNewsComponent implements OnChanges, OnInit{
           //console.log(response);
           this.news = response;
           this.images = UrlImg+response?.data.image?.replace('public', 'storage');
-          
+
         },
         error: (error: any) => {
           console.log(error);
           this.errorNews = error.message.message;
-          
+
         },
         complete: () => {
           console.log('complete');
-          
+
         }
       });
     }
@@ -124,7 +124,7 @@ export class DetailNewsComponent implements OnChanges, OnInit{
       this.modifyArticle = false;
     }
   }
-  
+
   newArticleOpen(){
     //this.modifyArticle = false;
     this.newArticle = !this.newArticle;
@@ -136,7 +136,7 @@ export class DetailNewsComponent implements OnChanges, OnInit{
       image: ''
     });
 
-   
+
   };
   newArticleClose(){
     this.newArticle = !this.newArticle;
@@ -153,7 +153,7 @@ export class DetailNewsComponent implements OnChanges, OnInit{
       formData.append('body_news', this.articleForm.get('body_news')?.value);
       formData.append('image', this.articleForm.get('image')?.value);
       console.log(formData);
-      
+
       //console.log(this.articleForm.value);
       this.newService.createArticle(formData).subscribe({
         next: (response: any) => {
@@ -167,7 +167,7 @@ export class DetailNewsComponent implements OnChanges, OnInit{
           };
           //actualizar la lista de articulos con el nuevo articulo
 
-          
+
         },
         error: (error: any) => {
           //error.errors.image
@@ -220,5 +220,5 @@ export class DetailNewsComponent implements OnChanges, OnInit{
   modifyArticleClose(article:boolean){
     this.modifyArticle = article;
   }
-  
+
 }

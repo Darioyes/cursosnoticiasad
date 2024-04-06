@@ -4,6 +4,7 @@ import { INews } from '@interfaces/inews';
 import { NewsService } from '@services/news.service';
 import { LoadingComponent } from '@shared/loading/loading.component';
 import { DetailNewsComponent } from '@shared/news/detail-news/detail-news.component';
+import { NewNewsComponent } from '@shared/news/new-news/new-news.component';
 import { TitleComponent } from '@shared/title/title.component';
 //importamos la interfaz de inews
 
@@ -16,7 +17,8 @@ import { TitleComponent } from '@shared/title/title.component';
     TitleComponent,
     JsonPipe,
     LoadingComponent,
-    DetailNewsComponent
+    DetailNewsComponent,
+    NewNewsComponent
   ],
   templateUrl: './news-page.component.html',
   styleUrl: './news-page.component.scss'
@@ -28,9 +30,11 @@ export class NewsPageComponent {
   public errorNews: any;
   public newsId: number | any;
   public activeGet: boolean | any;
+  public modalnewNews: boolean = false;
   @Output() openModal: boolean | any = false;
-  
-  constructor() { 
+  @Output() openModalNews: boolean = false;
+
+  constructor() {
     this.getAllnews();
   }
 
@@ -38,7 +42,6 @@ export class NewsPageComponent {
     this.newsServices.getnews().subscribe({
       next: (response: INews) => {
         this.news = response;
-        
       },
       error: (error: any) => {
         console.log(error);
@@ -54,7 +57,7 @@ export class NewsPageComponent {
       next: (response: any) => {
         //console.log(response);
         this.news = response;
-        
+
       },
       error: (error: any) => {
         console.log(error);
@@ -76,9 +79,26 @@ export class NewsPageComponent {
     this.newsServices.setModalActive(true);
 
   }
+
+  openModalNewNews(){
+    //abrimos el modal para crear una nueva noticia
+    this.openModalNews = true;
+    //creamos el servicio que pone el fondo transparente
+    this.newsServices.setModalActive(true);
+  }
+
+  // modalnewNewsOpen(){
+  //   //abrimos el modal para crear una nueva noticia
+  //   this.modalnewNews = true;
+  //   this.openModal = true;
+  // }
   //recibimos el valor del output del app-detail-news
   closeModal(modal: boolean){
     this.openModal = modal;
+  }
+  closeModalNews(modal: boolean){
+    this.openModalNews = modal;
+    this.getAllnews();
   }
 
 }

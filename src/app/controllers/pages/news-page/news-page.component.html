@@ -10,6 +10,11 @@
             (modalClose) = "closeModal($event)"/>
         </dialog>
 
+        <dialog [open] ="openModalNews" class="conteiner-news__dialog">
+          <app-new-news
+          (openModalNews) = "closeModalNews($event)"/>
+        </dialog>
+
 
         <div class="conteiner-news__title">
             @if (news?.error === false) {
@@ -96,7 +101,7 @@
                     <p>{{news?.data?.to}} / {{news?.data?.total}} </p>
                 </div>
                 <div>
-                    <button class="btn btn-success" >Nueva noticia</button>
+                    <button class="btn btn-success" (click)="openModalNewNews()"  >Nueva noticia</button>
                 </div>
         </div>
 

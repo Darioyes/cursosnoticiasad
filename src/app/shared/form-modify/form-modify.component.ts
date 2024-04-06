@@ -81,7 +81,7 @@ export class FormModifyComponent implements OnInit, OnChanges{
         this.newService.modifyArticle(data,id).subscribe({
 
           next: (response: any) => {
-            console.log(response);
+            //console.log(response);
             //this.articleModifyForm.reset();
             if(response.error === false){
               this.modifyArticle = false;
