@@ -2,6 +2,7 @@ import { JsonPipe, NgClass } from '@angular/common';
 import { Component, Output, inject } from '@angular/core';
 import { INews } from '@interfaces/inews';
 import { NewsService } from '@services/news.service';
+import { FormModifyComponent } from '@shared/form-modify/form-modify.component';
 import { LoadingComponent } from '@shared/loading/loading.component';
 import { DetailNewsComponent } from '@shared/news/detail-news/detail-news.component';
 import { NewNewsComponent } from '@shared/news/new-news/new-news.component';
@@ -18,7 +19,8 @@ import { TitleComponent } from '@shared/title/title.component';
     JsonPipe,
     LoadingComponent,
     DetailNewsComponent,
-    NewNewsComponent
+    NewNewsComponent,
+    FormModifyComponent
   ],
   templateUrl: './news-page.component.html',
   styleUrl: './news-page.component.scss'

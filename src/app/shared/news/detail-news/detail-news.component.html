@@ -1,5 +1,5 @@
 <section class="conteiner-news-one">
-    
+
     <div class="conteiner-news-one__close">
         <a (click)="closeModal()"  >
             <i class="fa-solid fa-x"></i>
@@ -7,6 +7,13 @@
     </div>
 
     @defer ( when news?.error === false ) {
+
+      <dialog [open] = "openModalModify" class="dialog">
+        <app-modify-news
+        [idNews]="newsId"
+        (openModalNews)="closeModalNews($event)"
+        />
+      </dialog>
 
         <div class="conteiner-news-one__title">
             <app-title [title]="news?.message"></app-title>
@@ -55,14 +62,14 @@
         </div>
 
         <div class="conteiner-news-one__btn">
-            <button class="btn btn-warning" [disabled]="modifyArticle" >Modificar</button>
-            <button class="btn btn-danger" [disabled]="modifyArticle"  >Eliminar</button>
+            <button class="btn btn-warning" [disabled]="modifyArticle" (click)="openModalNewsModify()" >Modificar</button>
+            <button class="btn btn-danger" [disabled]="modifyArticle" (click)="deleteOneNews(news?.data?.id)"  >Eliminar</button>
         </div>
 
-        
+
         @if(news?.data?.articles.length >= 0){
             @if(!modifyArticle){
-            
+
                 @for (item of news?.data?.articles; track item.id; let i = $index ) {
                         <div class="conteiner-news-one__title">
                             <h2>Articulos {{i+1}} </h2>
@@ -86,22 +93,22 @@
                         </div>
                         <div class="conteiner-news-one__btn">
                             <button class="btn btn-warning" type="menu"
-                            (click)="modifyArticleOpen(item.id)" 
+                            (click)="modifyArticleOpen(item.id)"
                             >Modificar</button>
                             <button class="btn btn-danger" (click)="deleteOneArticle(item.id)" >Eliminar</button>
                         </div>
-                    
+
                 }@empty {
                     <div class="conteiner-news-one__title">
                         <h2>No hay articulos</h2>
                     </div>
                 }
             }@else {
-                
-                <app-form-modify [idArticle]="idArticle" (formModifyClose)="modifyArticleClose($event)"/>
-                
 
-            }            
+                <app-form-modify [idArticle]="idArticle" (formModifyClose)="modifyArticleClose($event)"/>
+
+
+            }
             <div class="conteiner-news-one__btn">
                 <button class="btn btn-success" (click)="newArticleOpen()" [disabled]="modifyArticle"  >Nuevo articulo</button>
             </div>
@@ -110,7 +117,7 @@
         <!-- aca abajo va el formulario de ingresar articulos -->
         @if (newArticle) {
             <form [formGroup]="articleForm" (submit)="newArticleSend()"
-             class="conteiner-news-one__form"  
+             class="conteiner-news-one__form"
              enctype ="multipart/form-data">
              @if (articleForm.valid) {
                 <p class="alert alert-error">{{messageArticleError}}</p>
@@ -134,8 +141,8 @@
                                 <p class="alert alert-error">{{item}}</p>
                             }
                         }
-                        
-                        
+
+
                     </div>
                     <div class="conteiner-news-one__description--label">
                         <label for="entrance">Entrada</label>
@@ -171,11 +178,11 @@
                     }
                 </div>
                 <div class="conteiner-news-one__btn">
-                    <button class="btn btn-success" type="submit" name="buttonArtile" 
+                    <button class="btn btn-success" type="submit" name="buttonArtile"
                     [disabled]="articleForm.invalid">Guardar</button>
                     <button class="btn btn-danger" (click)="newArticleClose()" >Cancelar</button>
                 </div>
-    
+
             </form>
 
         }
@@ -186,7 +193,7 @@
                 <div class="conteiner-news-one__title">
                     <h2>Comentario {{i+1}}</h2>
                 </div>
-                
+
                 <div class="conteiner-news-one__full">
                     <label for="comment">Comentario</label>
                     <p>{{item.comment}}</p>
@@ -199,13 +206,13 @@
             }
         }
 
-    
+
     }@placeholder {
         @if (errorNews) {
-                
+
             <p class="alert alert-error">Error en la petición</p>
         }@else {
-    
+
             <app-loading class="table-loading" />
         }
         <!-- <app-loading class="table-loading" /> -->

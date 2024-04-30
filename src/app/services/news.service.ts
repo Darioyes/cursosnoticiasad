@@ -64,14 +64,36 @@ export class NewsService {
 
   newsNew(data:any){
     const url = this.baseurl+'news';
-    console.log('datos a enviar nuevos')
-    console.log(data);
+    //console.log('datos a enviar nuevos')
+    //console.log(data);
     const headers = new HttpHeaders({
       //enviar encabezados para arhivos y texto
       'Accept': 'application/json',
       //'Content-Type': 'multipart/form-data',
     });
     return this.http.post<any>(url,data,{ headers: headers }).pipe(
+      catchError(this.sendError)
+      );
+  }
+
+  modifyNews(data:any,id:number){
+    const url = this.baseurl+'news2/'+id;
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      //'Content-Type': 'application/json',
+    });
+    return this.http.post<any>(url,data,{ headers: headers }).pipe(
+      catchError(this.sendError)
+      );
+  }
+
+  deleteNews(id:number){
+    const url = this.baseurl+'news/'+id;
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      //'Content-Type': 'application/json',
+    });
+    return this.http.delete<any>(url,{ headers: headers }).pipe(
       catchError(this.sendError)
       );
   }
@@ -94,8 +116,8 @@ export class NewsService {
 
   createArticle(data:any){
     const url = this.baseurl+'articles';
-    console.log('datos a enviar nuevos')
-    console.log(data);
+    //console.log('datos a enviar nuevos')
+    //console.log(data);
     const headers = new HttpHeaders({
       //enviar encabezados para arhivos y texto
       'Accept': 'application/json',
@@ -110,8 +132,8 @@ export class NewsService {
 
   modifyArticle(data:any,id:number){
     const url = this.baseurl+'articles2/'+id;
-    console.log('datos a modificar')
-    console.log(data);
+    //console.log('datos a modificar')
+    //console.log(data);
     const headers = new HttpHeaders({
       //enviar encabezados para arhivos y texto
       'Accept': 'application/json',

@@ -7,6 +7,7 @@ import { FormModifyComponent } from '@shared/form-modify/form-modify.component';
 import { LoadingComponent } from '@shared/loading/loading.component';
 import { TitleComponent } from '@shared/title/title.component';
 import { environment } from 'src/environments/environment.development';
+import { ModifyNewsComponent } from '../modify-news/modify-news.component';
 
 @Component({
   selector: 'app-detail-news',
@@ -19,6 +20,7 @@ import { environment } from 'src/environments/environment.development';
     ReactiveFormsModule,
     FormModifyComponent,
     NgClass,
+    ModifyNewsComponent
   ],
   templateUrl: './detail-news.component.html',
   styleUrl: './detail-news.component.scss'
@@ -39,6 +41,7 @@ export class DetailNewsComponent implements OnChanges, OnInit{
   public modifyArticle: boolean | any = false;
   public idArticle: number | any;
   public errorNews: any;
+  public openModalModify: boolean | any = false;
 
 
   @Input( ) newsId: number | any;
@@ -88,7 +91,29 @@ export class DetailNewsComponent implements OnChanges, OnInit{
     return this.articleForm.get('image');
   }
 
+  //metodo para enviar a travez de output el valor de la variable openModal a false al padre que es news-page
+  closeModal(){
+    this.modalClose.emit(false);
+    this.newArticle = false;
+    this.newService.setModalActive(false);
+    //limpiamos el formulario
+    this.articleForm.reset();
+    if(this.modifyArticle){
+      this.modifyArticle = false;
+    }
+  }
 
+  //metodo para cargar la imagen
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    this.articleForm.patchValue({
+      image: file
+    });
+    this.articleForm.get('image').updateValueAndValidity();
+    event.target.value = '';
+  }
+
+//-------Noticias--------
   //metodo para solicitar una noticia
   getOneNews(num:number){
     if(num){
@@ -113,17 +138,46 @@ export class DetailNewsComponent implements OnChanges, OnInit{
     }
   };
 
-  //metodo para enviar a travez de output el valor de la variable openModal a false al padre que es news-page
-  closeModal(){
-    this.modalClose.emit(false);
-    this.newArticle = false;
-    this.newService.setModalActive(false);
-    //limpiamos el formulario
-    this.articleForm.reset();
-    if(this.modifyArticle){
-      this.modifyArticle = false;
+  modifyNews(){
+    this.modifyArticle = true;
+    this.modifyArticle= true;
+  }
+
+  //eliminar noticia
+  deleteOneNews(id:number){
+    const confirmDelete = confirm(`¿Estas seguro de eliminar esta noticia?`);
+    if(confirmDelete){
+      //console.log(id);
+      this.newService.deleteNews(id).subscribe({
+        next: (response: any) => {
+          //console.log(response);
+          if(response.error === false){
+            alert(response.message);
+          };
+          this.closeModal();
+
+        },
+        error: (error: any) => {
+          console.log(error);
+        },
+        complete: () => {
+          console.log('complete');
+        }
+      });
     }
   }
+
+  openModalNewsModify(){
+    this.openModalModify = true;
+  }
+
+  closeModalNews(modal: boolean){
+    this.openModalModify = modal;
+    //this.getOneNews(this.activeGet)
+  }
+
+
+  //-------Articulos--------
 
   newArticleOpen(){
     //this.modifyArticle = false;
@@ -152,7 +206,7 @@ export class DetailNewsComponent implements OnChanges, OnInit{
       formData.append('entrance', this.articleForm.get('entrance')?.value);
       formData.append('body_news', this.articleForm.get('body_news')?.value);
       formData.append('image', this.articleForm.get('image')?.value);
-      console.log(formData);
+      //console.log(formData);
 
       //console.log(this.articleForm.value);
       this.newService.createArticle(formData).subscribe({
@@ -181,15 +235,6 @@ export class DetailNewsComponent implements OnChanges, OnInit{
     }else{
       this.messageArticleError = 'Todos los campos son obligatorios';
     }
-  }
-
-  onFileChange(event: any) {
-    const file = event.target.files[0];
-    this.articleForm.patchValue({
-      image: file
-    });
-    this.articleForm.get('image').updateValueAndValidity();
-    event.target.value = '';
   }
 
   deleteOneArticle(id:number){
