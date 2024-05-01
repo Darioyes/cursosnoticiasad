@@ -1,5 +1,5 @@
 import { JsonPipe, NgClass } from '@angular/common';
-import { Component, Output, inject } from '@angular/core';
+import { Component, OnChanges, OnInit, Output, inject } from '@angular/core';
 import { INews } from '@interfaces/inews';
 import { NewsService } from '@services/news.service';
 import { FormModifyComponent } from '@shared/form-modify/form-modify.component';
@@ -25,7 +25,15 @@ import { TitleComponent } from '@shared/title/title.component';
   templateUrl: './news-page.component.html',
   styleUrl: './news-page.component.scss'
 })
-export class NewsPageComponent {
+export class NewsPageComponent implements OnInit, OnChanges {
+
+  ngOnInit(): void {
+    this.getAllnews();
+  }
+  ngOnChanges(): void {
+    this.getAllnews();
+  }
+
   public newsServices = inject(NewsService);
   public news: INews[] | any;
 
@@ -36,9 +44,7 @@ export class NewsPageComponent {
   @Output() openModal: boolean | any = false;
   @Output() openModalNews: boolean = false;
 
-  constructor() {
-    this.getAllnews();
-  }
+
 
   getAllnews(){
     this.newsServices.getnews().subscribe({

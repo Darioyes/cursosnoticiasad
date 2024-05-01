@@ -1,1 +1,125 @@
-<p>user-page works!</p>
+<section class="conteiner-news">
+  @defer ( when userFull?.error === false) {
+      <div class="conteiner-news__title">
+        @if (userFull?.error === false) {
+          <app-title title={{userFull?.message}}></app-title>
+        }@else {
+          <app-title title="Buscando usuarios"></app-title>
+        }
+      </div>
+      <div class="conteiner-news__table">
+          <table>
+              <thead>
+                  <tr>
+                    <th>
+                      Nombre
+                    </th>
+                    <th>
+                      Apellido
+                    </th>
+                    <th>
+                      Email
+                    </th>
+                    <th>
+                      Administrador
+                    </th>
+                    <!-- <th>
+                      Enviar Email
+                    </th> -->
+                    <th>
+                      Email verificado
+                    </th>
+                    <th>
+                      Acepta terminos
+                    </th>
+                    <th>
+                      Creado
+                    </th>
+                    <th>
+                      Modificado
+                    </th>
+                    <th>
+                      Acciones
+                    </th>
+                  </tr>
+              </thead>
+              <tbody>
+                @if(userFull?.error === false){
+
+                  @for (user of users; track users?.id) {
+                  <tr>
+                      <td >
+                        {{user?.name}}
+                      </td>
+                      <td>
+                        {{user?.lastname}}
+                      </td>
+                      <td>
+                        {{user?.email}}
+                      </td>
+                      <td>
+                        {{user?.admin_news === 'true' ? 'Si' : 'No'}}
+                      </td>
+                      <!-- <td>
+                        {{user.send_mail}}
+                      </td> -->
+                      <td>
+                        {{user?.email_verified_at}}
+                      </td>
+                      <td>
+                        {{user?.terms === 'true' ? 'Si' : 'No'}}
+                      </td>
+                      <td>
+                        {{user?.created_at | date: 'dd/MM/yyyy'}}
+                      </td>
+                      <td>
+                        {{user?.updated_at | date: 'dd/MM/yyyy'}}
+                      </td>
+                      <td>
+                        <button class="btn btn-warning">A</button>
+                        <button class="btn btn-danger">E</button>
+                      </td>
+                  </tr>
+                  }@empty {
+                    <tr>
+                        <td colspan="8">
+                            <p>No hay noticias</p>
+                        </td>
+                    </tr>
+                  }
+                }@else {
+                  <tr>
+                      <td colspan="4">
+                          Error al buscar la información
+                      </td>
+                  </tr>
+              }
+              </tbody>
+          </table>
+      </div>
+      <div class="conteiner-news__pagination">
+              <div class="container-pagination__links">
+                @for (item of userFull?.data?.links; track $index) {
+                  @if (item.label === '&laquo; Anterior') {
+                      <a  (click)="pagination(userFull.data.prev_page_url)">Anterior</a>
+                  }@else if (item.label ==='Siguiente &raquo;' ) {
+                      <a  (click)="pagination(userFull.data.next_page_url)">Siguiente</a>
+                  }@else{
+                      <a
+                      (click)="pagination(item.url)"
+                      [ngClass]="{'active-page': item.active}"
+                      >{{item.label}}</a>
+                  }
+              }
+              </div>
+              <div class="container-pagination__page">
+                <p>{{userFull?.data?.to}} / {{userFull?.data?.total}} </p>
+              </div>
+      </div>
+
+
+  }@placeholder {
+    <app-loading class="table-loading" />
+  }
+</section>
+
