@@ -48,6 +48,26 @@ export class UserService {
       );
   }
 
+  deleteUser(id:number){
+    const url = this.baseurl+'users/'+id;
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+    });
+    return this.http.delete(url,{ headers: headers }).pipe(
+      catchError(this.sendError)
+      );
+  }
+
+  updateUser(id:number, data:any){
+    const url = this.baseurl+'users/'+id;
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+    });
+    return this.http.put(url,data,{ headers: headers }).pipe(
+      catchError(this.sendError)
+      );
+  }
+
   getPagination(page:string){
     const url = page;
     const headers = new HttpHeaders({

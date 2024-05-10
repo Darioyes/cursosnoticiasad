@@ -30,6 +30,7 @@ export class UserPageComponent implements OnInit, OnChanges{
   public usersServices = inject(UserService);
   public userFull: iUsers | any;
   public users:IUser | any;
+  public admin:string | any;
 
   getUsers() {
     this.usersServices.getUsers().subscribe({
@@ -48,6 +49,53 @@ export class UserPageComponent implements OnInit, OnChanges{
       }
     });
   }
+
+  userUpdate(id:number,data:string){
+
+    if(data === 'true'){
+      this.admin = 'false';
+    }else{
+      this.admin = 'true';
+    }
+    console.log(data);
+    this.admin = {"admin_news": this.admin};
+    console.log(this.admin);
+
+    this.usersServices.updateUser(id,this.admin).subscribe({
+      next: (response: any) => {
+        alert(response.message);
+        this.getUsers();
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+        console.log('complete');
+      }
+    });
+
+  }
+
+  userDelete(id:number){
+    const confirmDelete = confirm(`¿Estas seguro de eliminar este usuario?`);
+    if(confirmDelete){
+
+      this.usersServices.deleteUser(id).subscribe({
+        next: (response: any) => {
+          //console.log(response);
+          alert(response.message);
+          this.getUsers();
+        },
+        error: (error: any) => {
+          console.log(error);
+        },
+        complete: () => {
+          console.log('complete');
+        }
+      });
+    }
+  }
+
  pagination(pag:any){
     this.usersServices.getPagination(pag).subscribe({
       next: (response: any) => {
