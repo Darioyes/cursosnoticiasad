@@ -2,7 +2,8 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable, inject } from '@angular/core';
 import { INews } from '@interfaces/inews';
 import { Observable, Subject, catchError, throwError } from 'rxjs';
-import { environment } from 'src/environments/environment.development';
+//import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment'; //cambiado por video
 
 @Injectable({
   providedIn: 'root'

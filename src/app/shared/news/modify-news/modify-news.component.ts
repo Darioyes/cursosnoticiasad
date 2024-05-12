@@ -118,7 +118,7 @@ export class ModifyNewsComponent implements OnInit, OnChanges{
       const UrlImg = environment.apiUrlBase;
       this.newService.getnews(this.idNews).subscribe({
         next: (response:INews | any) => {
-          console.log(response);
+          //console.log(response);
           this.news = response;
           this.images = UrlImg+response?.data.image?.replace('public', 'storage');
 

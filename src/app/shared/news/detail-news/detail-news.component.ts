@@ -153,6 +153,7 @@ export class DetailNewsComponent implements OnChanges, OnInit{
           //console.log(response);
           if(response.error === false){
             alert(response.message);
+            this.getOneNews(this.activeGet)
           };
           this.closeModal();
 
@@ -173,7 +174,7 @@ export class DetailNewsComponent implements OnChanges, OnInit{
 
   closeModalNews(modal: boolean){
     this.openModalModify = modal;
-    //this.getOneNews(this.activeGet)
+    this.getOneNews(this.activeGet)
   }
 
 

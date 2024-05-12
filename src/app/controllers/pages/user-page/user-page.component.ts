@@ -35,7 +35,7 @@ export class UserPageComponent implements OnInit, OnChanges{
   getUsers() {
     this.usersServices.getUsers().subscribe({
       next: (response: any) => {
-        console.log(response);
+       // console.log(response);
         this.userFull = response;
         this.users = response.data.data;
         //console.log(this.users);
@@ -57,9 +57,9 @@ export class UserPageComponent implements OnInit, OnChanges{
     }else{
       this.admin = 'true';
     }
-    console.log(data);
+    //console.log(data);
     this.admin = {"admin_news": this.admin};
-    console.log(this.admin);
+    //console.log(this.admin);
 
     this.usersServices.updateUser(id,this.admin).subscribe({
       next: (response: any) => {

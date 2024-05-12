@@ -79,7 +79,7 @@ export class NewNewsComponent implements OnInit{
 
         this.newService.newsNew(data).subscribe({
           next: (data) => {
-            console.log(data);
+            //console.log(data);
             this.newService.setModalActive(false);
             this.openModalNews.emit(false);
             this.newsForm.reset();

@@ -2,21 +2,22 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable, inject } from '@angular/core';
 // importamos la url de la api de los eviroments
 import { Observable, catchError, throwError } from 'rxjs';
-import { environment, } from '../../environments/environment.development';
+//import { environment, } from '../../environments/environment.development';
+import { environment } from 'src/environments/environment'; //cambiado por video
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
   baseurl = environment.apiUrlBase+'api/';
-  
+
 
   private http = inject(HttpClient);
 
   sendError(error: HttpErrorResponse) {
     let errorMessage = 'Algo ha ocurrido mal, por favor intentalo de nuevo';
     let errorNews ='true';
-  
+
     if (error.status === 400 && error.error && error.error.errors) {
       errorMessage = error.error.message;
       errorNews = error.error.errorNews;
@@ -24,7 +25,7 @@ export class LoginService {
       errorMessage = error.error;
       errorNews = error.error;
     }
-  
+
     return throwError(() =>  ({ message: errorMessage, errors: error.error.errors, errorNews: errorNews}));
   }
 
@@ -54,5 +55,5 @@ export class LoginService {
       catchError(this.sendError)
     );
   }
-  
+
 }
