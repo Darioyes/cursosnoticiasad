@@ -26,7 +26,10 @@
                         Slug
                     </th>
                     <th>
-                        Acciones
+                      Editar
+                    </th>
+                    <th>
+                      Eliminar
                     </th>
 
                 </tr>
@@ -42,9 +45,14 @@
                                 {{category.slug}}
                             </td>
                             <td>
-                                <button class="btn btn-warning"
-                                (click)="createCategoryNews(false,category.name,category.id)" >M</button>
-                                <button class="btn btn-danger" (click)="categoryDelete(category.id)" >B</button>
+                              <i class="fa-solid fa-pen-to-square" (click)="createCategoryNews(false,category.name,category.id)"></i>
+                                <!-- <button class="btn btn-warning"
+                                (click)="createCategoryNews(false,category.name,category.id)" >M</button> -->
+                              </td>
+                              <td>
+                                <i class="fa-solid fa-trash-can"(click)="categoryDelete(category.id)" ></i>
+                                <!-- <button class="btn btn-danger" (click)="categoryDelete(category.id)" >B</button> -->
+
                             </td>
                         </tr>
                     }@empty {

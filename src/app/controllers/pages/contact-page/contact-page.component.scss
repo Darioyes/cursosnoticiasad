@@ -1,4 +1,129 @@
-.prueba{
+@use '../../../../styles/variables/colors.scss' as color;
+
+.conteiner-news{
     width: 100%;
-    background-color: rosybrown;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+    &__dialog{
+        width: 80%;
+        height: 80%;
+        //quitar el borde del dialog
+        border: none;
+        box-shadow: none;
+
+    }
+
+    &__title{
+        width: 100%;
+        padding: 10px;
+    }
+
+    &__table{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+
+        table{
+            width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+            border-top: 1px solid #00000048;
+            border-bottom: 1px solid #00000048;
+            text-align: center;
+            color: #000000;
+            background: #ffffff;
+            overflow: hidden;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: #000000 #ffffff;
+
+            thead{
+                background: color.$yellow-institutional-light;
+                border-bottom: 1px solid #00000048;
+
+                tr{
+                    th{
+                        padding: 5px;
+                        font-size: 1.2rem;
+                        font-weight: 600;
+                    }
+                }
+            }
+            tbody{
+                tr{
+                    &:nth-child(even){
+                        background: color.$success-light;
+                    }
+                    &:hover{
+                        background: color.$blue-institutional;
+                        font-weight: bold;                        cursor: pointer;
+                    }
+                    td{
+                        padding: 8px;
+                        font-size: 1rem;
+                        font-weight: 400;
+                        font-size: 1.1rem;
+
+                    }
+                }
+
+            }
+            .table-loading{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+            }
+        }
+    }
+    &__pagination{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        .container-pagination__links{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            gap: 10px;
+            a{
+                padding: 5px;
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: color.$blue-institutional;
+                cursor: pointer;
+                &:hover{
+                    color: color.$blue-institutional-dark;
+                }
+            }
+            .active-page{
+                //colocar una linea inferior de color azul
+                border-bottom: 2px solid color.$red-nav-dark;
+
+            }
+        }
+        .container-pagination__page{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            p{
+                padding: 5px;
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: color.$yellow-institutional;
+            }
+        }
+    }
 }

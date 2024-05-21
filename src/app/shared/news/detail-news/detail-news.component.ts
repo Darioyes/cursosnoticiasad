@@ -267,4 +267,25 @@ export class DetailNewsComponent implements OnChanges, OnInit{
     this.modifyArticle = article;
   }
 
+  //-----comentarios------
+  //metodo para elimiar un comentario
+  deleteComment(id:number){
+    const confirmDelete = confirm(`¿Estas seguro de eliminar este comentario?`);
+    if(confirmDelete){
+      this.newService.deleteComment(id).subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.getOneNews(this.activeGet);
+
+        },
+        error: (error: any) => {
+          console.log(error);
+        },
+        complete: () => {
+          console.log('complete');
+        }
+      });
+    }
+  }
+
 }

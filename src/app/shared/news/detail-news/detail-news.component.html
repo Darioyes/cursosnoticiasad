@@ -201,7 +201,7 @@
 
                 <div class="conteiner-news-one__btn">
                     <button class="btn btn-warning" [disabled]="modifyArticle" >Modificar</button>
-                    <button class="btn btn-danger" [disabled]="modifyArticle" >Eliminar</button>
+                    <button class="btn btn-danger" [disabled]="modifyArticle" (click)="deleteComment(item.id)"  >Eliminar</button>
                 </div>
             }
         }

@@ -166,4 +166,16 @@ export class NewsService {
       catchError(this.sendError)
       );
   }
+
+  // ------Comments----------
+  //eliminar comentario
+  deleteComment(id:number){
+    const url = this.baseurl+'comments/'+id;
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+    });
+    return this.http.delete<any>(url,{ headers: headers }).pipe(
+      catchError(this.sendError)
+      );
+  }
 }

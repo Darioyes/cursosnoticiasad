@@ -1,4 +1,84 @@
-<div class="prueba">
+
+<section class="conteiner-news">
+
     <app-title title="Me contactaron" />
 
-</div>
+      <div class="conteiner-news__title">
+
+      </div>
+      <div class="conteiner-news__table">
+          <table>
+              <thead>
+                  <tr>
+                      <th>
+                          Nombre
+                      </th>
+                      <th>
+                          Email
+                      </th>
+                      <th>
+                          Mensaje
+                      </th>
+                      <th>
+                        Creado
+                      </th>
+                      <th>
+                          Adjuntos
+                      </th>
+                      <th>
+                        Borrar
+                    </th>
+                  </tr>
+              </thead>
+              <tbody>
+                @for (comment of comments; track $index) {
+
+                  <tr >
+                      <td >
+                        {{comment.name}}
+                      </td>
+                      <td>
+                        {{comment.email}}
+                      </td>
+                      <td>
+                       {{comment.message}}
+                      </td>
+                      <td>
+                        {{comment.created_at | date: 'dd/MM/yyyy'}}
+                      </td>
+                      <td>
+                        <i class="fa-solid fa-download" (click)="downloadFile(comment.id)" ></i>
+                      </td>
+                      <td>
+                        <i class="fa-solid fa-trash-can" (click)="deleteComment(comment.id)"></i>
+                      </td>
+                  </tr>
+                }
+
+              </tbody>
+          </table>
+      </div>
+      <div class="conteiner-news__pagination">
+              <div class="container-pagination__links">
+                  <!-- @for (item of news?.data?.links; track $index) {
+                      @if (item.label === '&laquo; Anterior') {
+                          <a  (click)="pagination(news.data.prev_page_url)">Anterior</a>
+                      }@else if (item.label ==='Siguiente &raquo;' ) {
+                          <a  (click)="pagination(news.data.next_page_url)">Siguiente</a>
+                      }@else{
+                          <a
+                          (click)="pagination(item.url)"
+                          [ngClass]="{'active-page': item.active}"
+                          >{{item.label}}</a>
+                      }
+                  } -->
+              </div>
+              <div class="container-pagination__page">
+                  <!-- <p>{{news?.data?.to}} / {{news?.data?.total}} </p> -->
+              </div>
+
+      </div>
+
+
+</section>
+
