@@ -45,7 +45,7 @@ export class ContactMeService {
   }
 
   //borrar contactame
-  deleteContact(id:any){
+  deleteContact(id:number){
     let url = this.baseurl+'contact/'+id;
     const headers = new HttpHeaders({
       'Accept': 'application/json',
@@ -64,6 +64,16 @@ export class ContactMeService {
       //'Content-Type': 'application/json',
     });
     return this.http.get(url,{ headers: headers, responseType: 'blob' }).pipe(
+      catchError(this.sendError)
+      );
+  }
+  getPagination(page:string){
+    const url = page;
+    const headers = new HttpHeaders({
+      'Accept': 'application/json',
+      //'Content-Type': 'application/json',
+    });
+    return this.http.get<IComments>(url,{ headers: headers }).pipe(
       catchError(this.sendError)
       );
   }

@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { IComment, IComments } from '@interfaces/iComments';
+import { IComment } from '@interfaces/iComments';
 import { ContactMeService } from '@services/contact-me.service';
+import { LoadingComponent } from '@shared/loading/loading.component';
 import { TitleComponent } from '@shared/title/title.component';
 
 @Component({
@@ -9,7 +10,8 @@ import { TitleComponent } from '@shared/title/title.component';
   standalone: true,
   imports: [
     CommonModule,
-    TitleComponent
+    TitleComponent,
+    LoadingComponent,
   ],
   templateUrl: './contact-page.component.html',
   styleUrl: './contact-page.component.scss'
@@ -19,8 +21,9 @@ export class ContactPageComponent implements OnInit{
   //injectamos el servicio
   commentsService = inject(ContactMeService);
 
-  commentsResponse!:IComments ;
-  comments!: IComment[];
+  public commentsResponse!:any ;
+  public comments!: IComment[];
+  public errorComments: any;
 
   ngOnInit(): void {
     this.getComments();
@@ -29,11 +32,12 @@ export class ContactPageComponent implements OnInit{
   getComments() {
     this.commentsService.contactMe().subscribe({
       next: (response: any) => {
-        //console.log(response);
+        console.log(response);
         this.commentsResponse = response;
         this.comments = response.data.data;
       },
       error: (error: any) => {
+        this.errorComments=error.message.message;
         console.log(error);
       },
       complete: () => {
@@ -80,4 +84,19 @@ export class ContactPageComponent implements OnInit{
     });
   }
 
+  pagination(pag:any){
+    this.commentsService.getPagination(pag).subscribe({
+      next: (response: any) => {
+        //console.log(response);
+        this.commentsResponse = response;
+        //console.log(response);
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {
+        console.log('complete');
+      }
+    });
+  }
 }

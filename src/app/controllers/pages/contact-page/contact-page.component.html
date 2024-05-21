@@ -1,7 +1,11 @@
 
 <section class="conteiner-news">
+  @if (!commentsResponse) {
+    <app-title title="Buscando contactados" />
+  }
+  @defer (when commentsResponse?.error === false) {
 
-    <app-title title="Me contactaron" />
+    <app-title title={{commentsResponse?.message}} />
 
       <div class="conteiner-news__title">
 
@@ -53,31 +57,44 @@
                         <i class="fa-solid fa-trash-can" (click)="deleteComment(comment.id)"></i>
                       </td>
                   </tr>
-                }
+                }@empty {
+                  <tr>
+                      <td colspan="6">
+                          <p>No hay comentarios</p>
+                      </td>
+                  </tr>}
 
               </tbody>
           </table>
       </div>
       <div class="conteiner-news__pagination">
               <div class="container-pagination__links">
-                  <!-- @for (item of news?.data?.links; track $index) {
+                  @for (item of commentsResponse?.data?.links; track $index) {
                       @if (item.label === '&laquo; Anterior') {
-                          <a  (click)="pagination(news.data.prev_page_url)">Anterior</a>
+                          <a  (click)="pagination(commentsResponse.data.prev_page_url)">Anterior</a>
                       }@else if (item.label ==='Siguiente &raquo;' ) {
-                          <a  (click)="pagination(news.data.next_page_url)">Siguiente</a>
+                          <a  (click)="pagination(commentsResponse.data.next_page_url)">Siguiente</a>
                       }@else{
                           <a
                           (click)="pagination(item.url)"
                           [ngClass]="{'active-page': item.active}"
                           >{{item.label}}</a>
                       }
-                  } -->
+                  }
               </div>
               <div class="container-pagination__page">
-                  <!-- <p>{{news?.data?.to}} / {{news?.data?.total}} </p> -->
+                  <p>{{commentsResponse?.data?.to}} / {{commentsResponse?.data?.total}} </p>
               </div>
 
       </div>
+  }@placeholder{
+    @if(errorComments){
+      <p class="alert alert-error">Error en la petición</p>
+    }@else {
+
+      <app-loading class="table-loading" />
+    }
+  }
 
 
 </section>
