@@ -1,5 +1,4 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,10 +10,14 @@ import { LoadingButtonComponent } from '@shared/loading-button/loading-button.co
 @Component({ selector: 'app-login-page',
     standalone: true,
     templateUrl: './login-page.component.html',
-    styleUrl: './login-page.component.scss', imports: [ReactiveFormsModule,
+    styleUrl: './login-page.component.scss',
+    imports: [ReactiveFormsModule,
         JsonPipe,
         AsyncPipe,
-        LoadingButtonComponent], providers: [provideHttpClient(withInterceptorsFromDi())] })
+        LoadingButtonComponent
+
+      ],
+     })
 export class LoginPageComponent implements OnInit {
 
   //creamos el formgroup para el formulario
@@ -27,7 +30,7 @@ export class LoginPageComponent implements OnInit {
   //inyectamos el servicio de login
   public loginService = inject(LoginService);
   //inyectamos el Httpclient
-  public httpClient = inject(HttpClientModule);
+  //public httpClient = inject(HttpClient);
   //inyectamos el router
   public router = inject(Router);
   //inyectamos la desuscripcion de DestroyRef

@@ -47,7 +47,7 @@
             <label for="category_news_id">Categoría noticia</label>
             <select name="category_news_id" id="category_news_id" formControlName="category_news_id">
               <option value="">No Aplica</option>
-              @for (category of categoriesNews; track categoriesNews.id) {
+              @for (category of categoriesNews; track category.id) {
                 <option [value]="category.id">{{category.name}}</option>
               }
 
@@ -57,7 +57,7 @@
           <label for="category_course_id" >Categoría cursos</label>
           <select name="category_course_id" id="category_course_id" formControlName="category_course_id">
             <option value="">No Aplica</option>
-            @for (categoryCourse of categoriesCourse; track categoriesCourse.id) {
+            @for (categoryCourse of categoriesCourse; track categoryCourse.id) {
               <option [value]="categoryCourse.id">{{categoryCourse.name}}</option>
             }
           </select>

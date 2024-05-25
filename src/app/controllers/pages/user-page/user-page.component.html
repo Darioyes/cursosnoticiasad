@@ -46,7 +46,7 @@
               <tbody>
                 @if(userFull?.error === false){
 
-                  @for (user of users; track users?.id) {
+                  @for (user of users; track user?.id) {
                   <tr>
                       <td >
                         {{user?.name}}

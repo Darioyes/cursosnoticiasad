@@ -42,7 +42,7 @@
                 </thead>
                 <tbody>
                     @if(news?.error === false){
-                        @for (item of news.data.data; track news.data.data.id) {
+                        @for (item of news.data.data; track item.id) {
 
                             <tr (click)="getId(item.id)">
                                 <td >

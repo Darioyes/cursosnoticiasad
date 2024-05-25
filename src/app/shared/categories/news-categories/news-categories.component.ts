@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CategoriesNewsService } from '@services/categories-news.service';
@@ -10,7 +9,7 @@ import { NewsService } from '@services/news.service';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    CommonModule,
+    //CommonModule,
 
   ],
   templateUrl: './news-categories.component.html',
