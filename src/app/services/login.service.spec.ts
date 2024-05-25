@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { LoginService } from './login.service';
 
 describe('LoginService', () => {
@@ -8,9 +8,9 @@ describe('LoginService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      providers: [LoginService],
-    });
+    imports: [],
+    providers: [LoginService, provideHttpClient(withInterceptorsFromDi())]
+});
     service = TestBed.inject(LoginService);
   });
 

@@ -1,5 +1,5 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -8,19 +8,13 @@ import { LoadingButtonComponent } from '@shared/loading-button/loading-button.co
 
 
 
-@Component({
-  selector: 'app-login-page',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    JsonPipe,
-    AsyncPipe,
-    HttpClientModule,
-    LoadingButtonComponent
-  ],
-  templateUrl: './login-page.component.html',
-  styleUrl: './login-page.component.scss'
-})
+@Component({ selector: 'app-login-page',
+    standalone: true,
+    templateUrl: './login-page.component.html',
+    styleUrl: './login-page.component.scss', imports: [ReactiveFormsModule,
+        JsonPipe,
+        AsyncPipe,
+        LoadingButtonComponent], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class LoginPageComponent implements OnInit {
 
   //creamos el formgroup para el formulario

@@ -2,21 +2,15 @@ import { Component, inject } from '@angular/core';
 import { LoginService } from '@services/login.service';
 //importamos el modulo de rutas
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { routes } from '../../app.routes';
 
-@Component({
-  selector: 'app-nav-bar',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    HttpClientModule
-  ],
-  templateUrl: './nav-bar.component.html',
-  styleUrl: './nav-bar.component.scss'
-})
+@Component({ selector: 'app-nav-bar',
+    standalone: true,
+    templateUrl: './nav-bar.component.html',
+    styleUrl: './nav-bar.component.scss', imports: [CommonModule,
+        RouterModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class NavBarComponent {
 
   public RouterModule = inject(RouterModule)
