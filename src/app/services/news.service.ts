@@ -37,7 +37,7 @@ export class NewsService {
     setModalActive(value: boolean): void {
       this.modalSubject.next(value);
     }
-
+    //servicio que obtiene el modal
     getModalActive(): Observable<boolean> {
       return this.modalSubject.asObservable();
     }
