@@ -1,0 +1,11 @@
+{
+  "routes": [
+    "/home",
+    "/home/categoriescourses",
+    "/home/categoriesnews",
+    "/home/contact",
+    "/home/news",
+    "/home/users",
+    "/login"
+  ]
+}
