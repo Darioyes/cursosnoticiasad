@@ -1,3 +1,4 @@
 export const environment = {
-    apiUrlBase: 'http://127.0.0.1:8000/',
+  apiUrlBase: 'https://noticursosapiback.noticursos.com/',
+   // apiUrlBase: 'http://127.0.0.1:8000/',
 };
